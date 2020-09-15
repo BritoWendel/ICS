@@ -1,0 +1,18 @@
+Requisitos não funcionais:
+Adaptabilidade:
+Confiabilidade:
+Disponibilidade:
+Eficiência:
+Flexibilidade:
+Usabilidade:
+
+Requisitos de Hardware:
+
+Requisitos de Infraestrutura:
+
+Requisitos de Software:
+Contingência:
+Operacionais:
+Segurança:
+Técnicos:
+Funcionais:
