@@ -1,14 +1,33 @@
 Requisitos não funcionais:
-Adaptabilidade:
-Confiabilidade:
-Disponibilidade:
-Eficiência:
-Flexibilidade:
-Usabilidade:
+Adaptabilidade: Aplicativo Roda em todo sistema que aceita o interpretador python.
+Confiabilidade: Sistema precisa de  verificação para registrar e recuperar dados.
+Disponibilidade: O sistema deve manter estável durante o horario comercial.
+Eficiência: O sistema será eficiente  dentro das otimizações possiveis disponibilizadas pelo interpretador python.
+	    As janelas do sistema terão aparencia ultrapassada devido a limitação da biblioteca tkinter.
+Flexibilidade: O sistema poderá customizar os campos que serão listados.
+Usabilidade: O sistema não será desenvolvido para leigos.
+	     Os usuários do sistema deverão apresentar alguma carga anterior de conhecimento com computadores.
 
-Requisitos de Hardware:
+Requisitos de Hardware: Servidor para o Banco de Dados nas seguintes configurações:
+				tipo de servidor: Virtual Private Server
+				Processador: Xeon Gold 5622 @ 2.16Hz
+				Software SGBO: MariaDDB
+				Sistema Operacional: Debian 10
+				Read-acess memory: 2Gb
+				Solid State Drive: 20 Gb
+				Acesso através de chaves RSA pelo SSH
+				Login remoto através de senha e nome de usuário desativado
+				Regra de contrab para reiniciar o banco de dados a cada meia noite
+			Interface Humano Computador (Aplicação Cliente)
+				Tipo de computador: Desktop
+				Software interpretador: Python 3.x
+				Sistema Operacional: Qualquet um suportado pelo interpretador Python
+				Read-acess memory: 4Gb
+				Processador: Core 2duo ou superior
+				Solid State Drive: Irrelevante, deve ter o espaço para conter o Interpretador Python,
+						   sistema operacional e o sistema em questão deve ter pelo menos 50 Mb
 
-Requisitos de Infraestrutura:
+Requisitos de Infraestrutura: Pessoal para operação e administração de sistemas linux.
 
 Requisitos de Software:
 Contingência:
