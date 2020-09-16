@@ -1,10 +1,10 @@
 Requisitos Não Funcionais
 
     Adaptabilidade
-        Aplicativo deve rodar Windows, Linux e OSX
+        Aplicativo deve rodar em Windows, Linux e OSX.
 
     Confiabilidade
-        Sistema precisa de verificar para registrar e recuperar dados.
+        O banco de dados garante a confiabilidade das informações do cliente.
 
     Disponibilidade
         O sistema deve manter estável durante o horario comercial.
@@ -106,15 +106,16 @@ Requisitos de Software
             Deve estar disponivel no horário comercial
 
         Performance
-            Deve atender a requisições dos usuários com baixo tempo de resposta
+            Deve atender a requisições dos usuários com baixo tempo de resposta.
+	    O sistema nao deve perder nenhuma requisição solicitada pelo usuário.
 
         Localização Física
             O Software Banco de dados deve ser instalado em uma VPS na nuvem
             O Software Cliente deve ser instalado nos computadores da empresa
 
     Segurança
-    
-        Somente o cliente oficial deverá e poderá requisitar dados do Servidor Banco de Dados
+        Somente o cliente oficial deverá e poderá requisitar dados do Servidor Banco de Dados.
+	O software só pode ser instalado nos computadores da empresa.
 
     Técnicos
     
