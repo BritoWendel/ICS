@@ -30,8 +30,12 @@ Requisitos de Hardware: Servidor para o Banco de Dados nas seguintes configuraç
 Requisitos de Infraestrutura: Pessoal para operação e administração de sistemas linux.
 
 Requisitos de Software:
-Contingência:
+Contingência: 
 Operacionais:
-Segurança:
-Técnicos:
-Funcionais:
+Segurança: Só podera ter acesso aos dados dos clientes pessoas autorizadas por identificação
+Técnicos: Arquitetura MVC, linguagem python
+Funcionais: Inserir cliente
+	    Editar cliente
+	    Excluir cliente
+	    Consultar cliente
+	    Listar cliente
