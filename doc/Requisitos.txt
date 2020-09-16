@@ -19,89 +19,111 @@ Requisitos Não Funcionais
     Usabilidade
         Os usuários do sistema deverão apresentar carga anterior de conhecimento com interfaces de usuário.
 
-Requisitos de Hardware
-    
-    Servidor de Banco de Dados
-
-        Modo de Hospedagem
-            Virtual Private Server
-
-        Processador
-            Xeon Gold 5622 @ 2.16Hz
-
-        Sistema de Gerenciamento de Banco de Dados
-            MariaDB
-
-        Sistema Operacional
-            Debian 10 ou CentOS
-
-        Read-access memory
-            2 Gigabytes
-
-        Armazenamento
-            20 Gigabytes (Preferencialmente Solid State Drive)
-
-        Configurações gerais do Sistema Operacional
-            Acesso através de chaves RSA pelo SSH
-            Login remoto através de senha e nome de usuário desativado
-            Regra do crontab para reiniciar o servidor toda meia noite
-            
-    Interface Humano Computador (Aplicação Cliente)
-
-        Tipo de computador
-            Desktop
-
-        Software interpretador
-            Python 3.x
-
-        Sistema Operacional
-            Windows, Linux ou OSX
-
-        Read-access memory
-            Minimo
-                4 Gigabytes
-            Recomendado
-                6 Gigabytes
-
-        Processador
-            Minimo
-                Intel Core 2 Duo
-            Recomendado
-                Intel Core 2 Quad
-
-        Armazenamento
-            40 Gigabytes ou maior (Preferencialmente Solid State Drive)
-
 Requisitos de Infraestrutura
     
     Operação e administração
         Duas pessoas especializadas em servidores Linux(Debian ou CentOS)
 
+    Requisitos de Hardware
+        
+        Servidor de Banco de Dados
+
+            Modo de Hospedagem
+                Virtual Private Server
+
+            Processador
+                Xeon Gold 5112 @ 2.40Hz
+
+            Sistema de Gerenciamento de Banco de Dados
+                MariaDB
+
+            Sistema Operacional
+                Debian 10 ou CentOS
+
+            Read-access memory
+                2 Gigabytes
+
+            Armazenamento
+                20 Gigabytes (Preferencialmente Solid State Drive)
+
+            Configurações gerais do Sistema Operacional
+                Acesso através de chaves RSA pelo SSH
+                Login remoto através de senha e nome de usuário desativado
+                Regra do crontab para reiniciar o servidor toda meia noite
+                
+        Interface Humano Computador (Aplicação Cliente)
+
+            Tipo de computador
+                Desktop
+
+            Software interpretador
+                Python 3.x
+
+            Sistema Operacional
+                Windows, Linux ou OSX
+
+            Read-access memory
+                Minimo
+                    4 Gigabytes
+                Recomendado
+                    6 Gigabytes
+
+            Processador
+                Minimo
+                    Intel Core 2 Duo
+                Recomendado
+                    Intel Core 2 Quad
+
+            Armazenamento
+                40 Gigabytes ou maior (Preferencialmente Solid State Drive)
+
 Requisitos de Software
-    
-    ???
 
-Contingência
+    Contingência
     
-    ???
+        O sistema não responde a requisições
+            Reiniciar o banco de dados e testar, caso erro continuar
+            Reiniciar o sistema operacional, caso erro continuar
+            Acionar os desenvolvedores, com pedido de correção de BUG
 
-Operacionais
+    Funcionais
     
-    ???
+        Cliente
+            Editar
+            Excluir
+            Consultar
+            Inserir
 
-Segurança
-    
-    Só podera ter acesso aos dados dos clientes pessoas autorizadas por identificação
+    Operacionais
 
-Técnicos
-    
-    Arquitetura MVC, linguagem python
+        Volume
+            Cada requisição de consulta ao banco de dados deve utilizar cerca de 3 kilobytes de rede
 
-Funcionais
+        Frequencia
+            Utilizado de forma constante no horário comercial
+
+        Disponibilidade
+            Deve estar disponivel no horário comercial
+
+        Performance
+            Deve atender a requisições dos usuários com baixo tempo de resposta
+
+        Localização Física
+            O Software Banco de dados deve ser instalado em uma VPS na nuvem
+            O Software Cliente deve ser instalado nos computadores da empresa
+
+    Segurança
     
-    Cliente
-        Editar
-        Excluir
-        Consultar
-        Inserir
+        Somente o cliente oficial deverá e poderá requisitar dados do Servidor Banco de Dados
+
+    Técnicos
+    
+        Arquitetura 
+            Client-Database
+
+        Linguagem de programação
+            Python
+
+        Tipo do banco de dados
+            Relacional/SQL
 
