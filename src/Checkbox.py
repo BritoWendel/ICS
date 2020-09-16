@@ -1,13 +1,16 @@
 from tkinter import *
 
 class Checkbox(Frame):
-    def __init__(self, container, textCheckbox):
-        super().__init__(container)
-        self.__isCheck = IntVar()
-        self.__checkbox = Checkbutton(self, text=textCheckbox, variable=self.__isCheck, width=9)
+    def __init__(self, master, text):
+        super().__init__(master)
+        self.__is_check = IntVar()
+        self.__checkbox = Checkbutton(master=self, text=text, variable=self.__is_check, width=9)
         self.__checkbox.grid(row=1, column=0)
-        self.rowconfigure(0, weight=1)
+        self.rowconfigure(index=0, weight=1)
 
-    def getValue(self):
-        return bool(self.__isCheck)
+    def get(self):
+        return bool(self.__is_check)
+
+    def set(self, value):
+        self.__is_check = IntVar(value)
 

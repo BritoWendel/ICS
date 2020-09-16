@@ -3,16 +3,13 @@ from LabelEntry import *
 from ColumnSplitter import *
 
 class TwoLabelEntry(Frame):
-    def __init__(self, container, textLabel0, textLabel1):
-        super().__init__(container)
-        self.__cs0 = ColumnSplitter(container=self)
-        self.__widget0 = self.__cs0.addWidget(widget=LabelEntry(self.__cs0, textLabel=textLabel0))
-        self.__widget1 = self.__cs0.addWidget(widget=LabelEntry(self.__cs0, textLabel=textLabel1))
-        self.__cs0.pack(fill='x')
+    def __init__(self, master, text, text1):
+        super().__init__(master)
+        self.__cs = ColumnSplitter(master=self)
+        self.__cs.add(widget=LabelEntry(self.__cs, text=text))
+        self.__cs.add(widget=LabelEntry(self.__cs, text=text1))
+        self.__cs.pack(fill='x')
 
-    def getLabelEntry0Value(self):
-        return self.__cs0.getWidget(self.__widget0).getValue()
-
-    def getLabelEntry1Value(self):
-        return self.__cs0.getWidget(self.__widget1).getValue()
+    def get(self, index):
+        return self.__cs.get(index).get()
 

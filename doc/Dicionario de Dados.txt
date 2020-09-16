@@ -1,0 +1,52 @@
+_booleano		[NEGRITO=0|1]
+_caractere		[_dígito|_letra|_símbolo]
+_dígito		[0|1|2|3|4|5|6|7|8|9]
+_id			{_dígito}			AUTO INCREMENT
+_letra			[a-z|A-Z]
+_símbolo		[!|@|#|$|%|¨|&|*|(|)|_|+]
+bairro			{_caractere}50
+celular		{_dígito}11			Opcional
+cep			{_dígito}8
+CLIENTES		{dado_cliente}			Tabela BD
+cnpj			{_dígito}14
+complemento		{_caractere}50
+dado_cliente		id_cliente +
+			razao_social +
+			nome_fantasia +
+			cnpj +
+			inscricao_estadual +
+			inscricao_municipal +
+			logradouro +
+			complemento +
+			bairro +
+			municipio +
+			id_uf +
+			cep +
+			telefones +
+			celular +
+			eh_whatsapp +
+			email +
+			url
+dado_uf		id_uf +
+			nome_uf +
+			sigla_uf
+eh_whatsapp		_booleano
+email			{_caractere}320		Opcional
+id_cliente		_id				PK(CLIENTES)
+id_uf			_id				PK(UNIDADE_FEDERATIVA)
+inscricao_estadual	{_dígito}12
+inscricao_municipal	{_dígito}11
+logradouro		{_caractere}50
+municipio		{_caractere}60
+nome_fantasia		{_catactere}55
+nome_uf		{_caractere}40
+razao_social		{_caractere}120
+sigla_uf		{_caractere}2			UK
+telefone		{_dígito}10			Opcional
+telefones		{telefone}3			Opcional
+uf			id_uf				FK(UNIDADE_FEDERATIVA)
+UNIDADE_FEDERATIVA	{dado_uf}			Tabela BD
+url			{_caractere}2000		Opcional
+
+
+

@@ -10,9 +10,9 @@ class CenteredWindow(Tk):
         self.resizable(resizeable, resizeable)
 
     def __center(self):
-        screenWidth = self.winfo_screenwidth()
-        screenHeight = self.winfo_screenheight()
-        positionRight = int((screenWidth/2) - (self.__width/2))
-        positionDown = int((screenHeight/2) - (self.__height/2))
-        self.geometry("{}x{}+{}+{}".format(self.__width, self.__height, positionRight, positionDown))
+        screen_width = self.winfo_screenwidth()
+        screen_height = self.winfo_screenheight()
+        position_right = int((screen_width/2) - (self.__width/2))
+        position_down = int((screen_height/2) - (self.__height/2))
+        self.geometry("{}x{}+{}+{}".format(self.__width, self.__height, position_right, position_down))
 

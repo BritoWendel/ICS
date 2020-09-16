@@ -4,16 +4,13 @@ from Checkbox import *
 from ColumnSplitter import *
 
 class LabelEntryCheckbox(Frame):
-    def __init__(self, container, textLabel, textCheckbox):
-        super().__init__(container)
-        self.__cs0 = ColumnSplitter(container=self)
-        self.__labelEntry = self.__cs0.addWidget(widget=LabelEntry(container=self.__cs0, textLabel=textLabel))
-        self.__checkbox = self.__cs0.addWidget(widget=Checkbox(container=self.__cs0, textCheckbox=textCheckbox), weight=0, uniform='group2')
-        self.__cs0.pack(fill='x')
+    def __init__(self, master, text, text1):
+        super().__init__(master)
+        self.__cs = ColumnSplitter(master=self)
+        self.__cs.add(widget=LabelEntry(master=self.__cs, text=text))
+        self.__cs.add(widget=Checkbox(master=self.__cs, text=text1), weight=0, uniform='g2')
+        self.__cs.pack(fill='x')
 
-    def getLabelEntryValue(self):
-        return self.__cs0.getWidget(self.__labelEntry).getValue()
-
-    def getCheckboxValue(self):
-        return self.__cs0.getWidget(self.__checkbox).getValue()
+    def get(self, index):
+        return self.__cs.get(index).get()
 
