@@ -1,7 +1,10 @@
 Requisitos Não Funcionais
 
     Adaptabilidade
-        Aplicativo deve rodar Windows, Linux e OSX
+        Aplicativo cliente deve rodar em
+            Windows (Necessidade)
+            Linux   (Desejo)
+            OSX     (Desejo)
 
     Confiabilidade
         Sistema precisa de verificar para registrar e recuperar dados.
