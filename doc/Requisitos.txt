@@ -1,28 +1,29 @@
-Requisitos Não Funcionais
+Requisitos Não Funcionais 
 
-    Adaptabilidade
+    Adaptabilidade (Fornecida pela Área de Tecnologia)
+
         Aplicativo cliente deve rodar em
             Windows (Necessidade)
             Linux   (Desejo)
             OSX     (Desejo)
 
-    Confiabilidade
+    Confiabilidade (Fornecida pela Área de Vendas)
         O banco de dados deve garantir a confiabilidade das informações do cliente. (Necessidade)
 
-    Disponibilidade
+    Disponibilidade (Fornecida pela Área de Vendas)
         O sistema deve manter estável durante o horario comercial. (Necessidade)
 
-    Eficiência
+    Eficiência (Fornecida pela Área de Tecnologia)
         O sistema deve atender a demanda de acessos daqueles utilizando a aplicação. (Necessidade)
         O sistema deve responder o mais rápido possivel as requisições de informações. (Necessidade)
 
-    Flexibilidade
+    Flexibilidade (Fornecida pela Área de Vendas)
         O sistema poderá customizar os campos que serão listados. (Desejo)
         
-    Usabilidade
+    Usabilidade (Fornecida pela Área de Tecnologia)
         Os usuários do sistema deverão apresentar carga anterior de conhecimento com interfaces de usuário. (Desejo)
 
-Requisitos de Infraestrutura
+Requisitos de Infraestrutura (Fornecida pela Área de Tecnologia)
     
     Operação e administração
         Duas pessoas especializadas em servidores Linux(Debian ou CentOS) (Necessidade)
@@ -84,14 +85,14 @@ Requisitos de Infraestrutura
 
 Requisitos de Software
 
-    Contingência
+    Contingência (Fornecida pela Área de Tecnologia)
     
         O sistema não responde a requisições (Necessidade)
             Reiniciar o banco de dados e testar, caso erro continuar
             Reiniciar o sistema operacional, caso erro continuar
             Acionar os desenvolvedores, com pedido de correção de BUG
 
-    Funcionais
+    Funcionais (Fornecida pela Área de Vendas)
     
         Cliente
             Editar (Necessidade)
@@ -101,29 +102,29 @@ Requisitos de Software
 
     Operacionais
 
-        Volume
+        Volume (Fornecida pela Área de Tecnologia)
             Cada requisição de consulta ao banco de dados deve utilizar cerca de 3 kilobytes de rede (Desejo)
 
-        Frequencia
+        Frequencia (Fornecida pela Área de Vendas)
             Utilizado de forma constante no horário comercial
 
-        Disponibilidade
+        Disponibilidade (Fornecida pela Área de Vendas)
             Deve estar disponivel no horário comercial (Necessidade)
 
-        Performance
+        Performance (Fornecida pela Área de Tecnologia)
             Deve atender a requisições dos usuários com baixo tempo de resposta. (Necessidade)
             O sistema nao deve perder nenhuma requisição solicitada pelo usuário. (Necessidade)
 
-        Localização Física
+        Localização Física (Fornecida pela Área de Tecnologia)
             O Software Banco de dados deve ser instalado em uma VPS na nuvem (Desejo)
             O Software Banco de dados deve ser ao menos instalado no servidor da empresa (Necessidade)
             O Software Cliente deve ser instalado nos computadores da empresa (Necessidade)
 
-    Segurança
+    Segurança (Fornecida pela Área de Tecnologia)
         Somente o cliente oficial deverá e poderá requisitar dados do Servidor Banco de Dados. (Necessidade)
         O software só pode ser instalado nos computadores da empresa. (Necessidade)
 
-    Técnicos
+    Técnicos (Fornecida pela Área de Tecnologia)
     
         Arquitetura 
             Client-Database (Desejo)
