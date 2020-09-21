@@ -19,7 +19,7 @@ Requisitos Não Funcionais
 
     Flexibilidade (Fornecida pela Área de Vendas)
         O sistema poderá customizar os campos que serão listados. (Desejo)
-        Apresentar o resultado da busca dos clientes na lista em ordem alfabética. (Desejo)
+        Apresentar o resultado da busca dos clientes na lista em ordem alfabética de razão social. (Desejo)
         
     Usabilidade (Fornecida pela Área de Tecnologia)
         Os usuários do sistema deverão apresentar carga anterior de conhecimento com interfaces de usuário. (Desejo)
