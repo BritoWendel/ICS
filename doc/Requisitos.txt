@@ -6,11 +6,7 @@ Requisitos Não Funcionais
             Windows (Necessidade)
             Linux   (Desejo)
             OSX     (Desejo)
-            BSD     (Desejo)
-            posicao alterasdff
-            asdf
-            asdjfioajsdfojasiodfjas
-            dfioasdjfioasjd
+            lajsaksjaklsjalsa
 
     Confiabilidade (Fornecida pela Área de Vendas)
         O banco de dados deve garantir a confiabilidade das informações do cliente. (Necessidade)
