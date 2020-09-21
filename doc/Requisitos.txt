@@ -9,6 +9,8 @@ Requisitos Não Funcionais
 
     Confiabilidade (Fornecida pela Área de Vendas)
         O banco de dados deve garantir a confiabilidade das informações do cliente. (Necessidade)
+        Todos os dados são obrigatórios exceto inscrição estadual, inscrição municipal, complemento, telefone celular e url. (Necessidade)
+        Os dados devem ser validados préviamente antes de serem enviados ao banco. (Necessidade)
 
     Disponibilidade (Fornecida pela Área de Vendas)
         O sistema deve manter estável durante o horario comercial. (Necessidade)
@@ -55,6 +57,10 @@ Requisitos de Infraestrutura (Fornecida pela Área de Tecnologia)
                 Acesso através de chaves RSA pelo SSH (Necessidade)
                 Login remoto através de senha e nome de usuário desativado (Necessidade)
                 Regra do crontab para reiniciar o servidor toda meia noite (Desejo)
+
+            Rede
+                IP Fixo (Necessidade)
+                Domínio (Desejo)
                 
         Interface Humano Computador (Aplicação Cliente)
 
@@ -83,6 +89,9 @@ Requisitos de Infraestrutura (Fornecida pela Área de Tecnologia)
 
             Armazenamento
                 40 Gigabytes ou maior (Preferencialmente Solid State Drive)
+
+            Rede
+                Acesso à internet (Necessidade)
 
 Requisitos de Software
 
