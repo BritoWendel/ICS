@@ -6,7 +6,6 @@ Requisitos Não Funcionais
             Windows (Necessidade)
             Linux   (Desejo)
             OSX     (Desejo)
-            lajsaksjaklsjalsa
 
     Confiabilidade (Fornecida pela Área de Vendas)
         O banco de dados deve garantir a confiabilidade das informações do cliente. (Necessidade)
@@ -146,4 +145,3 @@ Requisitos de Software
 
         Tipo do banco de dados
             Relacional/SQL (Necessidade)
-
