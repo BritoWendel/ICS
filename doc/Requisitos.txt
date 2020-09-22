@@ -108,7 +108,7 @@ Requisitos de Software
             Excluir (Necessidade)
             Consultar (Necessidade)
             Inserir (Necessidade)
-            Listaar (Necessidade)
+            Listar (Necessidade)
             Apresentar o resultado da busca dos clientes na lista em ordem crescente ou decrescente por razão social ou cnpj. (Desejo)
 
     Operacionais
