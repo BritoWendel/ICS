@@ -1,3 +1,6 @@
+/* Create mydb Database */
+CREATE DATABASE `mydb`;
+
 /* Create UF Table */
 CREATE TABLE IF NOT EXISTS `mydb`.`UF` (
   `id_ud` INT NOT NULL AUTO_INCREMENT,
@@ -5,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`UF` (
   `sigla_uf` VARCHAR(2) NOT NULL,
   PRIMARY KEY (`id_ud`),
   UNIQUE INDEX `sigla_uf_UNIQUE` (`sigla_uf` ASC) VISIBLE)
-ENGINE = InnoDB
+ENGINE = InnoDB;
 
 /* Create MUNICIPIO Table */
 CREATE TABLE IF NOT EXISTS `mydb`.`MUNICIPIO` (
@@ -19,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`MUNICIPIO` (
     REFERENCES `mydb`.`UF` (`id_ud`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
+ENGINE = InnoDB;
 
 /* Create CLIENTE Table */
 CREATE TABLE IF NOT EXISTS `mydb`.`CLIENTE` (
@@ -46,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`CLIENTE` (
     REFERENCES `mydb`.`MUNICIPIO` (`id_municipio`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
+ENGINE = InnoDB;
 
 /* Create TELEFONE Table */
 CREATE TABLE IF NOT EXISTS `mydb`.`TELEFONE` (
@@ -61,4 +64,4 @@ CREATE TABLE IF NOT EXISTS `mydb`.`TELEFONE` (
     REFERENCES `mydb`.`CLIENTE` (`id_cliente`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
+ENGINE = InnoDB;
