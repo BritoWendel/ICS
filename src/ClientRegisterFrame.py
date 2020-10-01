@@ -8,7 +8,8 @@ class ClientRegisterFrame(Frame):
     def __init__(self, master):
         super().__init__(master)
 
-        self.__socialReason = LabelEntry(self, text='Razão Social', mask="abcdefghijklmnopqrstuwxyz", max_lenght=5)
+            self.__socialReason = LabelEntry(self, 'Razão Social', ALPHABET + SPACE, 15)
+        self.__socialReason.rule_add(3, '.').rule_add(6, '.').rule_add(9, '.').rule_add(12, '/')
         self.__socialReason.pack(fill='x', pady=3)
 
 #        self.__tle = TwoLabelEntry(master=self, text='Nome Fantasia', text1='CNPJ')
@@ -39,14 +40,16 @@ class ClientRegisterFrame(Frame):
 #        self.__url = LabelEntry(master=self, text="URL")
 #        self.__url.pack(fill='x', pady=3)
 #
-#        self.__saveButton = Button(master=self, text="Cancelar")
-#        self.__saveButton.pack(pady=3, padx=3, side=RIGHT)
+        self.__saveButton = Button(master=self, text="Cancelar", command=self.getSocialReason)
+        self.__saveButton.pack(pady=3, padx=3, side=RIGHT)
 #
 #        self.__cancelButton = Button(master=self, text="Salvar")
 #        self.__cancelButton.pack(pady=3, side=RIGHT)
 
     def getSocialReason(self):
-        return self.__socialReason.get()
+        #return self.__socialReason.get_raw()
+        #print(self.__socialReason.get_raw())
+        self.__socialReason.set_raw("aaabbbcccdddeee")
 
     def getFantasyName(self):
         return self.__tle.get(0)
