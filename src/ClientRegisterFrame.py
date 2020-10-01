@@ -8,42 +8,42 @@ class ClientRegisterFrame(Frame):
     def __init__(self, master):
         super().__init__(master)
 
-        self.__socialReason = LabelEntry(self, text='Razão Social')
+        self.__socialReason = LabelEntry(self, text='Razão Social', mask="abcdefghijklmnopqrstuwxyz", max_lenght=5)
         self.__socialReason.pack(fill='x', pady=3)
 
-        self.__tle = TwoLabelEntry(master=self, text='Nome Fantasia', text1='CNPJ')
-        self.__tle.pack(fill='x', pady=3)
-
-        self.__tle1 = TwoLabelEntry(master=self, text='Inscrição Estadual', text1='Inscrição Municipal')
-        self.__tle1.pack(fill='x', pady=3)
-
-        self.__publicPlace = LabelEntry(master=self, text='Logradouro')
-        self.__publicPlace.pack(fill='x', pady=3)
-        
-        self.__tle2 = TwoLabelEntry(master=self, text='Complemento', text1='Bairro')
-        self.__tle2.pack(fill='x', pady=3)
-
-        self.__cs = ColumnSplitter(master=self)
-        self.__county = self.__cs.add(widget=LabelEntry(self.__cs, text='Município'))
-        self.__cs.add(widget=TwoLabelEntry(master=self.__cs, text='UF', text1='CEP'))
-        self.__cs.pack(fill='x', pady=3)
-
-        self.__cs1 = ColumnSplitter(master=self)
-        self.__telephones = self.__cs1.add(widget=LabelEntry(master=self.__cs1, text='Telefones'))
-        self.__cs1.add(widget=LabelEntryCheckbox(master=self.__cs1, text='Celular', text1='WhatsApp?'))
-        self.__cs1.pack(fill='x', pady=3)
-
-        self.__email = LabelEntry(master=self, text="E-mail")
-        self.__email.pack(fill='x', pady=3)
-
-        self.__url = LabelEntry(master=self, text="URL")
-        self.__url.pack(fill='x', pady=3)
-
-        self.__saveButton = Button(master=self, text="Cancelar")
-        self.__saveButton.pack(pady=3, padx=3, side=RIGHT)
-
-        self.__cancelButton = Button(master=self, text="Salvar")
-        self.__cancelButton.pack(pady=3, side=RIGHT)
+#        self.__tle = TwoLabelEntry(master=self, text='Nome Fantasia', text1='CNPJ')
+#        self.__tle.pack(fill='x', pady=3)
+#
+#        self.__tle1 = TwoLabelEntry(master=self, text='Inscrição Estadual', text1='Inscrição Municipal')
+#        self.__tle1.pack(fill='x', pady=3)
+#
+#        self.__publicPlace = LabelEntry(master=self, text='Logradouro')
+#        self.__publicPlace.pack(fill='x', pady=3)
+#        
+#        self.__tle2 = TwoLabelEntry(master=self, text='Complemento', text1='Bairro')
+#        self.__tle2.pack(fill='x', pady=3)
+#
+#        self.__cs = ColumnSplitter(master=self)
+#        self.__county = self.__cs.add(widget=LabelEntry(self.__cs, text='Município'))
+#        self.__cs.add(widget=TwoLabelEntry(master=self.__cs, text='UF', text1='CEP'))
+#        self.__cs.pack(fill='x', pady=3)
+#
+#        self.__cs1 = ColumnSplitter(master=self)
+#        self.__telephones = self.__cs1.add(widget=LabelEntry(master=self.__cs1, text='Telefones'))
+#        self.__cs1.add(widget=LabelEntryCheckbox(master=self.__cs1, text='Celular', text1='WhatsApp?'))
+#        self.__cs1.pack(fill='x', pady=3)
+#
+#        self.__email = LabelEntry(master=self, text="E-mail")
+#        self.__email.pack(fill='x', pady=3)
+#
+#        self.__url = LabelEntry(master=self, text="URL")
+#        self.__url.pack(fill='x', pady=3)
+#
+#        self.__saveButton = Button(master=self, text="Cancelar")
+#        self.__saveButton.pack(pady=3, padx=3, side=RIGHT)
+#
+#        self.__cancelButton = Button(master=self, text="Salvar")
+#        self.__cancelButton.pack(pady=3, side=RIGHT)
 
     def getSocialReason(self):
         return self.__socialReason.get()

@@ -1,11 +1,13 @@
 from tkinter import *
 
 class LabelEntry(Frame):
-    def __init__(self, master, text):
+    def __init__(self, master, text, mask, max_lenght):
         super().__init__(master)
         self.__label = Label(master=self, text=text, anchor='w')
         self.__label.grid(row=0, column=0, stick='w')
         self.__var = StringVar()
+        self.__mask = mask
+        self.__max_lenght = max_lenght
         self.__entry = Entry(self, textvariable=self.__var)
         self.__var.trace("w", lambda name, index, mode, var=self.__var:self.__update())
         self.__entry.grid(row=1, column=0, stick='nsew')
@@ -29,11 +31,12 @@ class LabelEntry(Frame):
         len_text = len(text)
 
         if len_text > 0:
-            if len_text < 8:
-                if len_text == 2:
-                    self.insert(':')
-                elif text[-1] == ':' or not text[-1].isdigit():
-                    self.set(text[:-1])
+            if len_text < self.__max_lenght:
+                for rule in format_rules:
+                    if len_text == 2:#rule.position
+                        self.insert(':')#rule.symbol
+                    elif text[-1] == ':' or not text[-1] in self.__mask:
+                        self.set(text[:-1])
             else:
-                self.set(text[:8])
+                self.set(text[:self.__max_lenght])
 
