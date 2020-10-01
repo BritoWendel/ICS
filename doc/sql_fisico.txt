@@ -1,17 +1,17 @@
-/* Create mydb Database */
-CREATE DATABASE `mydb`;
+/* Create sci_db Database */
+CREATE DATABASE `sci_db`;
 
 /* Create UF Table */
-CREATE TABLE IF NOT EXISTS `mydb`.`UF` (
-  `id_ud` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `sci_db`.`UF` (
+  `id_uf` INT NOT NULL AUTO_INCREMENT,
   `nome_uf` VARCHAR(255) NOT NULL,
   `sigla_uf` VARCHAR(2) NOT NULL,
-  PRIMARY KEY (`id_ud`),
+  PRIMARY KEY (`id_uf`),
   UNIQUE INDEX `sigla_uf_UNIQUE` (`sigla_uf` ASC) VISIBLE)
 ENGINE = InnoDB;
 
 /* Create MUNICIPIO Table */
-CREATE TABLE IF NOT EXISTS `mydb`.`MUNICIPIO` (
+CREATE TABLE IF NOT EXISTS `sci_db`.`MUNICIPIO` (
   `id_municipio` INT NOT NULL AUTO_INCREMENT,
   `nome_municipio` VARCHAR(255) NOT NULL,
   `id_uf_municipio` INT NOT NULL,
@@ -19,14 +19,14 @@ CREATE TABLE IF NOT EXISTS `mydb`.`MUNICIPIO` (
   INDEX `fk_MUNICIPIO_1_idx` (`id_uf_municipio` ASC) VISIBLE,
   CONSTRAINT `fk_MUNICIPIO_1`
     FOREIGN KEY (`id_uf_municipio`)
-    REFERENCES `mydb`.`UF` (`id_ud`)
+    REFERENCES `sci_db`.`UF` (`id_uf`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 /* Create CLIENTE Table */
-CREATE TABLE IF NOT EXISTS `mydb`.`CLIENTE` (
-  `id_cliente` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `sci_db`.`CLIENTE` (
+  `id_cliente` INT NOT NULL AUTO_INCREMENT,
   `bairro_cliente` VARCHAR(255) NOT NULL,
   `cep_cliente` INT NOT NULL,
   `rsocial_cliente` VARCHAR(255) NOT NULL,
@@ -34,9 +34,9 @@ CREATE TABLE IF NOT EXISTS `mydb`.`CLIENTE` (
   `ddd_cel_cliente` INT NOT NULL,
   `nfantasia_cliente` VARCHAR(255) NOT NULL,
   `whatsapp_cliente` TINYINT NOT NULL,
-  `cnpj_cliente` INT NOT NULL,
-  `iestadual_cliente` INT NULL,
-  `imunicipal_cliente` INT NULL,
+  `cnpj_cliente` BIGINT NOT NULL,
+  `iestadual_cliente` BIGINT NULL,
+  `imunicipal_cliente` BIGINT NULL,
   `logradouro_cliente` VARCHAR(255) NOT NULL,
   `email_cliente` VARCHAR(250) NOT NULL,
   `complemento_cliente` VARCHAR(250) NULL,
@@ -46,14 +46,14 @@ CREATE TABLE IF NOT EXISTS `mydb`.`CLIENTE` (
   INDEX `fk_CLIENTE_1_idx` (`id_municipio_cliente` ASC) VISIBLE,
   CONSTRAINT `fk_CLIENTE_1`
     FOREIGN KEY (`id_municipio_cliente`)
-    REFERENCES `mydb`.`MUNICIPIO` (`id_municipio`)
+    REFERENCES `sci_db`.`MUNICIPIO` (`id_municipio`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 /* Create TELEFONE Table */
-CREATE TABLE IF NOT EXISTS `mydb`.`TELEFONE` (
-  `id_telefone` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `sci_db`.`TELEFONE` (
+  `id_telefone` INT NOT NULL AUTO_INCREMENT,
   `ddd_telefone` INT NOT NULL,
   `numero_telefone` INT NOT NULL,
   `id_cliente_telefone` INT NOT NULL,
@@ -61,7 +61,84 @@ CREATE TABLE IF NOT EXISTS `mydb`.`TELEFONE` (
   INDEX `fk_TELEFONE_1_idx` (`id_cliente_telefone` ASC) VISIBLE,
   CONSTRAINT `fk_TELEFONE_1`
     FOREIGN KEY (`id_cliente_telefone`)
-    REFERENCES `mydb`.`CLIENTE` (`id_cliente`)
+    REFERENCES `sci_db`.`CLIENTE` (`id_cliente`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+/* Insert UF entries */
+INSERT INTO `sci_db`.`UF` (`nome_uf`, `sigla_uf`) VALUES ("Amazonas", "AM");
+INSERT INTO `sci_db`.`UF` (`nome_uf`, `sigla_uf`) VALUES ("Pará", "PA");
+INSERT INTO `sci_db`.`UF` (`nome_uf`, `sigla_uf`) VALUES ("Mato Grosso", "MT");
+INSERT INTO `sci_db`.`UF` (`nome_uf`, `sigla_uf`) VALUES ("Minas Gerais", "MG");
+INSERT INTO `sci_db`.`UF` (`nome_uf`, `sigla_uf`) VALUES ("Bahia", "BA");
+INSERT INTO `sci_db`.`UF` (`nome_uf`, `sigla_uf`) VALUES ("Mato Grosso do Sul", "MS");
+INSERT INTO `sci_db`.`UF` (`nome_uf`, `sigla_uf`) VALUES ("Goiás", "GO");
+INSERT INTO `sci_db`.`UF` (`nome_uf`, `sigla_uf`) VALUES ("Maranhão", "MA");
+INSERT INTO `sci_db`.`UF` (`nome_uf`, `sigla_uf`) VALUES ("Rio Grande do Sul", "RS");
+INSERT INTO `sci_db`.`UF` (`nome_uf`, `sigla_uf`) VALUES ("Tocantins", "TO");
+INSERT INTO `sci_db`.`UF` (`nome_uf`, `sigla_uf`) VALUES ("Piauí", "PI");
+INSERT INTO `sci_db`.`UF` (`nome_uf`, `sigla_uf`) VALUES ("São Paulo", "SP");
+INSERT INTO `sci_db`.`UF` (`nome_uf`, `sigla_uf`) VALUES ("Rondônia", "RO");
+INSERT INTO `sci_db`.`UF` (`nome_uf`, `sigla_uf`) VALUES ("Roraima", "RR");
+INSERT INTO `sci_db`.`UF` (`nome_uf`, `sigla_uf`) VALUES ("Paraná", "PR");
+INSERT INTO `sci_db`.`UF` (`nome_uf`, `sigla_uf`) VALUES ("Acre", "AC");
+INSERT INTO `sci_db`.`UF` (`nome_uf`, `sigla_uf`) VALUES ("Ceará", "CE");
+INSERT INTO `sci_db`.`UF` (`nome_uf`, `sigla_uf`) VALUES ("Amapá", "AP");
+INSERT INTO `sci_db`.`UF` (`nome_uf`, `sigla_uf`) VALUES ("Pernambuco", "PE");
+INSERT INTO `sci_db`.`UF` (`nome_uf`, `sigla_uf`) VALUES ("Santa Catarina", "SC");
+INSERT INTO `sci_db`.`UF` (`nome_uf`, `sigla_uf`) VALUES ("Paraíba", "PB");
+INSERT INTO `sci_db`.`UF` (`nome_uf`, `sigla_uf`) VALUES ("Rio Grande do Norte", "RN");
+INSERT INTO `sci_db`.`UF` (`nome_uf`, `sigla_uf`) VALUES ("Espírito Santo", "ES");
+INSERT INTO `sci_db`.`UF` (`nome_uf`, `sigla_uf`) VALUES ("Rio de Janeiro", "RJ");
+INSERT INTO `sci_db`.`UF` (`nome_uf`, `sigla_uf`) VALUES ("Alagoas", "AL");
+INSERT INTO `sci_db`.`UF` (`nome_uf`, `sigla_uf`) VALUES ("Segipe", "SE");
+INSERT INTO `sci_db`.`UF` (`nome_uf`, `sigla_uf`) VALUES ("Distrito Federal", "DF");
+
+/* Insert MUNICIPIO entries */
+INSERT INTO `sci_db`.`MUNICIPIO` (`nome_municipio`, `id_uf_municipio`) VALUES ("Campinas", 12);
+INSERT INTO `sci_db`.`MUNICIPIO` (`nome_municipio`, `id_uf_municipio`) VALUES ("Araraquara", 12);
+INSERT INTO `sci_db`.`MUNICIPIO` (`nome_municipio`, `id_uf_municipio`) VALUES ("São José do Rio Preto", 12);
+INSERT INTO `sci_db`.`MUNICIPIO` (`nome_municipio`, `id_uf_municipio`) VALUES ("Ribeirão Preto", 12);
+INSERT INTO `sci_db`.`MUNICIPIO` (`nome_municipio`, `id_uf_municipio`) VALUES ("São Paulo", 12);
+INSERT INTO `sci_db`.`MUNICIPIO` (`nome_municipio`, `id_uf_municipio`) VALUES ("Hortolandia", 12);
+INSERT INTO `sci_db`.`MUNICIPIO` (`nome_municipio`, `id_uf_municipio`) VALUES ("Valinhos", 12);
+
+/* Insert CLIENTE entries */
+INSERT INTO `sci_db`.`CLIENTE`
+(`bairro_cliente`,
+`cep_cliente`,
+`rsocial_cliente`,
+`ncel_cliente`,
+`ddd_cel_cliente`,
+`nfantasia_cliente`,
+`whatsapp_cliente`,
+`cnpj_cliente`,
+`iestadual_cliente`,
+`imunicipal_cliente`,
+`logradouro_cliente`,
+`email_cliente`,
+`complemento_cliente`,
+`url_cliente`,
+`id_municipio_cliente`)
+VALUES
+("Bairro 3M",
+35655972,
+"3M do Brasil",
+99327426,
+19,
+"3M",
+0,
+90178983000143,
+799169523181,
+99169523181,
+"Rua 3M",
+"gerente@3m.com.br",
+"Recepção Norte",
+"www.3m.com.br",
+1);
+
+/* Insert TELEFONE entries */
+INSERT INTO `sci_db`.`TELEFONE` (`ddd_telefone`, `numero_telefone`, `id_cliente_telefone`) VALUES (19, 32456477, 1);
+INSERT INTO `sci_db`.`TELEFONE` (`ddd_telefone`, `numero_telefone`, `id_cliente_telefone`) VALUES (19, 42726843, 1);
+INSERT INTO `sci_db`.`TELEFONE` (`ddd_telefone`, `numero_telefone`, `id_cliente_telefone`) VALUES (19, 52233496, 1);
