@@ -103,7 +103,7 @@ class DivisorColunas(Frame):
         self.grid_columnconfigure(index=tamanho_lista, weight=weight, uniform=uniform)
         self.__widgets[tamanho_lista].grid(row=0, column=tamanho_lista, stick='nsew')
 
-class Deposito:
+class Deposito(object):
     def __init__(self, user, passwd, host, db):
         self.__conn = mysql.connector.connect(
                 user=user, password=passwd, host=host, database=db
