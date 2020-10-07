@@ -31,7 +31,7 @@ class LabelEntry(Frame):
 
     def rule_add(self, pos, symbol):
         self.__rule_list.append([pos+len(self.__rule_list), symbol])
-        self.__lenght += 1
+        self.__lenght += len(symbol)
         return self
 
     def get_raw(self):
@@ -39,13 +39,13 @@ class LabelEntry(Frame):
         len_text = len(text)
         tmp_rule_list = [e for e in self.__rule_list]
         while len(tmp_rule_list) != 0:
-            tmp_pos = tmp_rule_list[0].position
+            tmp_pos = tmp_rule_list[0][0]
             if len_text > tmp_pos:
                 text = text[:tmp_pos] + text[tmp_pos+1:]
                 del tmp_rule_list[0]
                 for i in range(0, len(tmp_rule_list)):
-                    if tmp_rule_list[i].position > tmp_pos:
-                        tmp_rule_list[i].position -= 1
+                    if tmp_rule_list[i][0] > tmp_pos:
+                        tmp_rule_list[i][0] -= 1
             else:
                 del tmp_rule_list[0]
         return text
@@ -53,8 +53,8 @@ class LabelEntry(Frame):
     def set_raw(self, value):
         len_value = len(value)
         for i in self.__rule_list:
-            if len_value > i.position:
-                value = value[:i.position] + i.symbol + value[i.position:]
+            if len_value > i[0]:
+                value = value[:i[0]] + i[1] + value[i[0]:]
                 len_value += 1 
         self.set(value)
                 
@@ -76,20 +76,26 @@ class LabelEntry(Frame):
     def __update(self):
         text = self.get()
         len_text = len(text)
+        len_rule = len(self.__rule_list)
 
         if len_text > 0:
             if len_text < self.__lenght:
-                for rule in self.__rule_list:
-                    if len_text == (rule.position+1):
-                        final_text = text[:-1] + rule.symbol + text[-1]
-                        self.set(final_text)
-                    elif text[-1] == rule.symbol or not text[-1] in self.__mask:
+                if (len_rule > 0):
+                    for rule in self.__rule_list:
+                        if len_text == (rule[0]+1):
+                            final_text = text[:-1] + rule[1] + text[-1]
+                            self.set(final_text)
+                        elif text[-1] == rule[1] or not text[-1] in self.__mask:
+                            self.set(text[:-1])
+                else:
+                    if not text[-1] in self.__mask:
                         self.set(text[:-1])
             else:
                 self.set(text[:self.__lenght])
 
-            if text[-1] == self.__rule_list[-1].symbol:
-                self.set(text[:-1])
+            if len_rule > 0:
+                if text[-1] == self.__rule_list[-1][1]:
+                    self.set(text[:-1])
 
 class DivisorColunas(Frame):
     def __init__(self, master):
@@ -212,47 +218,67 @@ class RegistroCliente(JanelaCentralizada):
         self.__label_whatsapp    = Label(self.__frame_whatsapp, text='')
 
         self.__entry_rsocial     = LabelEntry(
-                self.__frame, 'Razão Social', ALPHABET, 255)
+                self.__frame, 'Razão Social', ALPHANUMERIC + SPACE, 255)
         self.__entry_nfantasia   = LabelEntry(
-                self.__frame0, 'Nome Fantasia', ALPHABET, 255)
+                self.__frame0, 'Nome Fantasia', ALPHANUMERIC + SPACE, 255)
         self.__entry_cnpj        = LabelEntry(
-                self.__frame0, 'CNPJ', ALPHABET, 255)
+                self.__frame0, 'CNPJ', NUMERIC, 14)
         self.__entry_iestadual   = LabelEntry(
-                self.__frame1, 'Inscrição Estadual', ALPHABET, 255)
+                self.__frame1, 'Inscrição Estadual', NUMERIC, 12)
         self.__entry_imunicipal  = LabelEntry(
-                self.__frame1, 'Inscrição Municipal', ALPHABET, 255)
+                self.__frame1, 'Inscrição Municipal', NUMERIC, 8)
         self.__entry_logradouro  = LabelEntry(
-                self.__frame, 'Logradouro', ALPHABET, 255)
+                self.__frame, 'Logradouro', ALPHANUMERIC + SPACE, 255)
         self.__entry_complemento = LabelEntry(
-                self.__frame2, 'Complemento', ALPHABET, 255)
+                self.__frame2, 'Complemento', ALPHANUMERIC + SPACE, 255)
         self.__entry_bairro      = LabelEntry(
-                self.__frame2, 'Bairro', ALPHABET, 255)
+                self.__frame2, 'Bairro', ALPHABET + SPACE, 255)
         self.__entry_municipio   = LabelEntry(
-                self.__frame3, 'Municipio', ALPHABET, 255)
+                self.__frame3, 'Municipio', ALPHABET + SPACE, 255)
         self.__entry_uf          = LabelEntry(
-                self.__frame3_sub, 'UF', ALPHABET, 255)
+                self.__frame3_sub, 'UF', ALPHABET + SPACE, 255)
         self.__entry_cep         = LabelEntry(
-                self.__frame3_sub, 'CEP', ALPHABET, 255)
+                self.__frame3_sub, 'CEP', NUMERIC, 8)
         self.__entry_telefones   = LabelEntry(
-                self.__frame4, 'Telefones', ALPHABET, 255)
+                self.__frame4, 'Telefone', NUMERIC, 10)
         self.__entry_ncel        = LabelEntry(
-                self.__frame4_sub, 'Celular', ALPHABET, 255)
+                self.__frame4_sub, 'Celular', NUMERIC, 11)
         self.__entry_email       = LabelEntry(
-                self.__frame, 'E-mail', ALPHABET, 255)
+                self.__frame, 'E-mail', ALPHANUMERIC + "_@-.", 255)
         self.__entry_url         = LabelEntry(
-                self.__frame, 'URL', ALPHABET, 255)
+                self.__frame, 'URL', ALPHANUMERIC + "_-./", 255)
 
         self.__whatsapp = IntVar()
         self.__check_whatsapp = Checkbutton(self.__frame_whatsapp,
                 text='WhatsApp?', variable=self.__whatsapp, width=9)
 
-        self.__button_cancelar  = Button(self.__frame, text="Cancelar")
+        self.__button_cancelar  = Button(self.__frame, text="Cancelar",
+                command=self.destroy)
         self.__button_salvar    = Button(self.__frame, text="Salvar")
         
-        self.__entry_rsocial.rule_add(3, '.')
-        self.__entry_rsocial.rule_add(6, '.')
-        self.__entry_rsocial.rule_add(9, '.')
-        self.__entry_rsocial.rule_add(12, '/')
+        self.__entry_cep.rule_add(5, '-')
+
+        self.__entry_cnpj.rule_add(2, '.')
+        self.__entry_cnpj.rule_add(5, '.')
+        self.__entry_cnpj.rule_add(8, '/')
+        self.__entry_cnpj.rule_add(12, '-')
+
+        self.__entry_iestadual.rule_add(3, '.')
+        self.__entry_iestadual.rule_add(6, '.')
+        self.__entry_iestadual.rule_add(9, '.')
+        
+        self.__entry_imunicipal.rule_add(1, '.')
+        self.__entry_imunicipal.rule_add(4, '.')
+        self.__entry_imunicipal.rule_add(7, '-')
+        
+        self.__entry_telefones.rule_add(0, '(')
+        self.__entry_telefones.rule_add(2, ') ')
+        self.__entry_telefones.rule_add(7, '-')
+        
+        self.__entry_ncel.rule_add(0, '(')
+        self.__entry_ncel.rule_add(2, ') ')
+        self.__entry_ncel.rule_add(4, ' ')
+        self.__entry_ncel.rule_add(8, '-')
 
         self.__frame0.add(self.__entry_nfantasia)
         self.__frame0.add(self.__entry_cnpj)
