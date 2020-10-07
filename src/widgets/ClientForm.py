@@ -151,3 +151,48 @@ class ClientForm(Frame):
 
     def get_url(self):
         self.__entry_url.get_raw()
+    
+    def set_rsocial(self, value):
+        self.__entry_rsocial.set_raw(value)
+
+    def set_nfantasia(self, value):
+        self.__entry_nfantasia.set_raw(value)
+
+    def set_cnpj(self, value):
+        self.__entry_cnpj.set_raw(value)
+
+    def set_iestadual(self, value):
+        self.__entry_iestadual.set_raw(value)
+
+    def set_imunicipal(self, value):
+        self.__entry_imunicipal.set_raw(value)
+
+    def set_logradouro(self, value):
+        self.__entry_logradouro.set_raw(value)
+
+    def set_complemento(self, value):
+        self.__entry_complemento.set_raw(value)
+
+    def set_bairro(self, value):
+        self.__entry_bairro.set_raw(value)
+
+    def set_municipio(self, value):
+        self.__entry_municipio.set_raw(value)
+
+    def set_uf(self, value):
+        self.__entry_uf.set_raw(value)
+
+    def set_cep(self, value):
+        self.__entry_cep.set_raw(value)
+
+    def set_telefone(self, value):
+        self.__entry_telefone.set_raw(value)
+
+    def set_celular(self, value):
+        self.__entry_celular.set_raw(value)
+
+    def set_email(self, value):
+        self.__entry_email.set_raw(value)
+
+    def set_url(self, value):
+        self.__entry_url.set_raw(value)
