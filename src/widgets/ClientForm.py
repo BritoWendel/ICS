@@ -7,6 +7,7 @@ from widgets.LabelEntry import *
 class ClientForm(Frame):
     def __init__(self, master):
         super().__init__(master)
+
         self.__frame0 = ColumnSplitter(self)
         self.__frame1 = ColumnSplitter(self)
         self.__frame2 = ColumnSplitter(self)
@@ -96,14 +97,19 @@ class ClientForm(Frame):
 
         self.__entry_rsocial.pack(fill='x', pady=3)
         self.__entry_rsocial.focus()
+
         self.__frame0.pack(fill='x', pady=3)
         self.__frame1.pack(fill='x', pady=3)
+
         self.__entry_logradouro.pack(fill='x', pady=3)
+
         self.__frame2.pack(fill='x', pady=3)
         self.__frame3.pack(fill='x', pady=3)
         self.__frame4.pack(fill='x', pady=3)
+
         self.__entry_email.pack(fill='x', pady=3)
         self.__entry_url.pack(fill='x', pady=3)
+
         self.__button_cancelar.pack(pady=3, padx=3, side=RIGHT)
         self.__button_salvar.pack(pady=3, side=RIGHT)
 

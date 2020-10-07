@@ -5,7 +5,7 @@ class Checkbox(Frame):
         super().__init__(master)
         self.__check_state = IntVar()
         self.__checkbox = Checkbutton(
-                master=self, text=text, variable=self.__check_state, width=9)
+                self, text=text, variable=self.__check_state, width=9)
         self.__checkbox.grid(row=1, column=0)
         self.rowconfigure(index=0, weight=1)
 
