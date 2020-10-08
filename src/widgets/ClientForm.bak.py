@@ -1,45 +1,54 @@
 from tkinter import *
 
 from widgets.Checkbox import *
+from widgets.ColumnSplitter import *
 from widgets.LabelEntry import *
 
 class ClientForm(Frame):
     def __init__(self, master):
         super().__init__(master)
 
+        self.__frame0 = ColumnSplitter(self)
+        self.__frame1 = ColumnSplitter(self)
+        self.__frame2 = ColumnSplitter(self)
+        self.__frame3 = ColumnSplitter(self)
+        self.__frame4 = ColumnSplitter(self)
+
+        self.__frame3_sub = ColumnSplitter(self.__frame3)
+        self.__frame4_sub = ColumnSplitter(self.__frame4)
+
         self.__entry_rsocial     = LabelEntry(
                 self, 'Razão Social', ALPHANUMERIC + SPACE, 255)
         self.__entry_nfantasia   = LabelEntry(
-                self, 'Nome Fantasia', ALPHANUMERIC + SPACE, 255)
+                self.__frame0, 'Nome Fantasia', ALPHANUMERIC + SPACE, 255)
         self.__entry_cnpj        = LabelEntry(
-                self, 'CNPJ', NUMERIC, 14)
+                self.__frame0, 'CNPJ', NUMERIC, 14)
         self.__entry_iestadual   = LabelEntry(
-                self, 'Inscrição Estadual', NUMERIC, 12)
+                self.__frame1, 'Inscrição Estadual', NUMERIC, 12)
         self.__entry_imunicipal  = LabelEntry(
-                self, 'Inscrição Municipal', NUMERIC, 8)
+                self.__frame1, 'Inscrição Municipal', NUMERIC, 8)
         self.__entry_logradouro  = LabelEntry(
                 self, 'Logradouro', ALPHANUMERIC + SPACE, 255)
         self.__entry_complemento = LabelEntry(
-                self, 'Complemento', ALPHANUMERIC + SPACE, 255)
+                self.__frame2, 'Complemento', ALPHANUMERIC + SPACE, 255)
         self.__entry_bairro      = LabelEntry(
-                self, 'Bairro', ALPHABET + SPACE, 255)
+                self.__frame2, 'Bairro', ALPHABET + SPACE, 255)
         self.__entry_municipio   = LabelEntry(
-                self, 'Municipio', ALPHABET + SPACE, 255)
+                self.__frame3, 'Municipio', ALPHABET + SPACE, 255)
         self.__entry_uf          = LabelEntry(
-                self, 'UF', ALPHABET + SPACE, 255)
+                self.__frame3_sub, 'UF', ALPHABET + SPACE, 255)
         self.__entry_cep         = LabelEntry(
-                self, 'CEP', NUMERIC, 8)
+                self.__frame3_sub, 'CEP', NUMERIC, 8)
         self.__entry_telefone   = LabelEntry(
-                self, 'Telefone', NUMERIC, 10)
+                self.__frame4, 'Telefone', NUMERIC, 10)
         self.__entry_ncel        = LabelEntry(
-                self, 'Celular', NUMERIC, 11)
-        
-        self.__check_whatsapp = Checkbox(self, 'WhatsApp?')
-
+                self.__frame4_sub, 'Celular', NUMERIC, 11)
         self.__entry_email       = LabelEntry(
                 self, 'E-mail', ALPHANUMERIC + "_@-.", 255)
         self.__entry_url         = LabelEntry(
                 self, 'URL', ALPHANUMERIC + "_-./", 255)
+
+        self.__check_whatsapp = Checkbox(self.__frame4_sub, 'WhatsApp?')
 
         self.__button_salvar    = Button(self, text="Salvar")
         self.__button_cancelar  = Button(self, text="Cancelar",
@@ -68,30 +77,41 @@ class ClientForm(Frame):
         self.__entry_ncel.rule_add(2, ') ')
         self.__entry_ncel.rule_add(4, ' ')
         self.__entry_ncel.rule_add(8, '-')
-        
-        self.grid_columnconfigure(index=0, minsize=1, weight=5)
-        self.grid_columnconfigure(index=1, minsize=1, weight=1)
-        self.grid_columnconfigure(index=2, minsize=1, weight=1)
-        
-        self.__entry_rsocial.grid(row=0, column=0, columnspan=6, stick='ew', pady=3)
-        self.__entry_nfantasia.grid(row=1, column=0, stick='ew', pady=3)
-        self.__entry_cnpj.grid(row=1, column=1, columnspan=5, stick='ew', pady=3)
-        self.__entry_iestadual.grid(row=2, column=0, stick='ew', pady=3)
-        self.__entry_imunicipal.grid(row=2, column=1, columnspan=5, stick='ew', pady=3)
-        self.__entry_logradouro.grid(row=3, column=0, columnspan=6, stick='ew', pady=3)
-        self.__entry_complemento.grid(row=4, column=0, stick='ew', pady=3)
-        self.__entry_bairro.grid(row=4, column=1, columnspan=5, stick='ew', pady=3)
-        self.__entry_municipio.grid(row=5, column=0, stick='ew', pady=3)
-        self.__entry_uf.grid(row=5, column=1, columnspan=2, stick='ew', pady=3)
-        self.__entry_cep.grid(row=5, column=3, columnspan=4, stick='ew', pady=3)
-        self.__entry_telefone.grid(row=6, column=0, stick='ew', pady=3)
-        self.__entry_ncel.grid(row=6, column=1, columnspan=4, stick='ew', pady=3)
-        self.__check_whatsapp.grid(row=6, column=5, stick='nsew', pady=3)
-        self.__entry_email.grid(row=7, column=0, columnspan=6, stick='ew', pady=3)
-        self.__entry_url.grid(row=8, column=0, columnspan=6, stick='ew', pady=3)
 
-        self.__button_salvar.grid(row=9, column=4, stick='e')
-        self.__button_cancelar.grid(row=9, column=5, stick='e')
+        self.__frame0.add(self.__entry_nfantasia)
+        self.__frame0.add(self.__entry_cnpj)
+        self.__frame1.add(self.__entry_iestadual)
+        self.__frame1.add(self.__entry_imunicipal)
+        self.__frame2.add(self.__entry_complemento)
+        self.__frame2.add(self.__entry_bairro)
+
+        self.__frame3_sub.add(self.__entry_uf)
+        self.__frame3_sub.add(self.__entry_cep)
+        self.__frame3.add(self.__entry_municipio)
+        self.__frame3.add(self.__frame3_sub)
+
+        self.__frame4_sub.add(self.__entry_ncel)
+        self.__frame4_sub.add(self.__check_whatsapp, 0, 'g2')
+        self.__frame4.add(self.__entry_telefone)
+        self.__frame4.add(self.__frame4_sub)
+
+        self.__entry_rsocial.pack(fill='x', pady=3)
+        self.__entry_rsocial.focus()
+
+        self.__frame0.pack(fill='x', pady=3)
+        self.__frame1.pack(fill='x', pady=3)
+
+        self.__entry_logradouro.pack(fill='x', pady=3)
+
+        self.__frame2.pack(fill='x', pady=3)
+        self.__frame3.pack(fill='x', pady=3)
+        self.__frame4.pack(fill='x', pady=3)
+
+        self.__entry_email.pack(fill='x', pady=3)
+        self.__entry_url.pack(fill='x', pady=3)
+
+        self.__button_cancelar.pack(pady=3, padx=3, side=RIGHT)
+        self.__button_salvar.pack(pady=3, side=RIGHT)
 
     def get_rsocial(self):
         self.__entry_rsocial.get_raw()

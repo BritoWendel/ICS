@@ -2,7 +2,7 @@
 
 from tkinter import *
 
-from ClientInsert import *
+from windows.ClientInsert import *
 
 def main():
     instance_insert = ClientInsert()
