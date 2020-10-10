@@ -11,4 +11,3 @@ class CenteredWindow(Tk):
         )
         self.title(title)
         self.resizable(False, False)
-
