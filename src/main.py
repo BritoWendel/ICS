@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 
-from tkinter import *
-
-from windows.ClientInsert import *
+from windows.ClientList import ClientList
 
 def main():
-    instance_insert = ClientInsert()
+    instance_insert = ClientList()
     instance_insert.mainloop()
 
 if __name__ == "__main__":
