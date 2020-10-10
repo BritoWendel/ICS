@@ -1,49 +1,51 @@
 from tkinter import *
 
 from widgets.Checkbox import *
-from widgets.LabelEntry import *
+from widgets.EEntry import *
 
 class ClientForm(Frame):
     def __init__(self, master):
         super().__init__(master)
+        
+        self.__label_rsocial = Label(self, text='Razão Social')
+        self.__label_nfantasia = Label(self, text='Nome Fantasia')
+        self.__label_cnpj = Label(self, text='CNPJ')
+        self.__label_iestadual = Label(self, text='Inscrição Estadual')
+        self.__label_imunicipal = Label(self, text='Inscrição Municipal')
+        self.__label_logradouro = Label(self, text='Logradouro')
+        self.__label_complemento = Label(self, text='Complemento')
+        self.__label_bairro = Label(self, text='Bairro')
+        self.__label_municipio = Label(self, text='Municipio')
+        self.__label_uf = Label(self, text='UF')
+        self.__label_cep = Label(self, text='CEP')
+        self.__label_telefone = Label(self, text='Telefone')
+        self.__label_ncel = Label(self, text='Celular')
+        self.__label_email = Label(self, text='E-mail')
+        self.__label_url = Label(self, text='URL')
 
-        self.__entry_rsocial     = LabelEntry(
-                self, 'Razão Social', ALPHANUMERIC + SPACE, 255)
-        self.__entry_nfantasia   = LabelEntry(
-                self, 'Nome Fantasia', ALPHANUMERIC + SPACE, 255)
-        self.__entry_cnpj        = LabelEntry(
-                self, 'CNPJ', NUMERIC, 14)
-        self.__entry_iestadual   = LabelEntry(
-                self, 'Inscrição Estadual', NUMERIC, 12)
-        self.__entry_imunicipal  = LabelEntry(
-                self, 'Inscrição Municipal', NUMERIC, 8)
-        self.__entry_logradouro  = LabelEntry(
-                self, 'Logradouro', ALPHANUMERIC + SPACE, 255)
-        self.__entry_complemento = LabelEntry(
-                self, 'Complemento', ALPHANUMERIC + SPACE, 255)
-        self.__entry_bairro      = LabelEntry(
-                self, 'Bairro', ALPHABET + SPACE, 255)
-        self.__entry_municipio   = LabelEntry(
-                self, 'Municipio', ALPHABET + SPACE, 255)
-        self.__entry_uf          = LabelEntry(
-                self, 'UF', ALPHABET + SPACE, 255)
-        self.__entry_cep         = LabelEntry(
-                self, 'CEP', NUMERIC, 8)
-        self.__entry_telefone   = LabelEntry(
-                self, 'Telefone', NUMERIC, 10)
-        self.__entry_ncel        = LabelEntry(
-                self, 'Celular', NUMERIC, 11)
+        self.__entry_rsocial = EEntry(self, ALPHANUMERIC + SPACE, 255)
+        self.__entry_nfantasia = EEntry(self, ALPHANUMERIC + SPACE, 255)
+        self.__entry_cnpj = EEntry(self, NUMERIC, 14)
+        self.__entry_iestadual = EEntry(self, NUMERIC, 12)
+        self.__entry_imunicipal = EEntry(self, NUMERIC, 8)
+        self.__entry_logradouro = EEntry(self, ALPHANUMERIC + SPACE, 255)
+        self.__entry_complemento = EEntry(self, ALPHANUMERIC + SPACE, 255)
+        self.__entry_bairro = EEntry(self, ALPHABET + SPACE, 255)
+        self.__entry_municipio = EEntry(self, ALPHABET + SPACE, 255)
+        self.__entry_uf = EEntry(self, ALPHABET + SPACE, 255)
+        self.__entry_cep = EEntry(self, NUMERIC, 8)
+        self.__entry_telefone = EEntry(self, NUMERIC, 10)
+        self.__entry_ncel = EEntry(self, NUMERIC, 11)
         
         self.__check_whatsapp = Checkbox(self, 'WhatsApp?')
 
-        self.__entry_email       = LabelEntry(
-                self, 'E-mail', ALPHANUMERIC + "_@-.", 255)
-        self.__entry_url         = LabelEntry(
-                self, 'URL', ALPHANUMERIC + "_-./", 255)
+        self.__entry_email = EEntry(self, ALPHANUMERIC + "_@-.", 255)
+        self.__entry_url = EEntry(self, ALPHANUMERIC + "_-./", 255)
 
-        self.__button_salvar    = Button(self, text="Salvar")
-        self.__button_cancelar  = Button(self, text="Cancelar",
-                command=self.destroy)
+        self.__button_salvar = Button(
+                self, text="Salvar", command=self.__entry_telefone.get_raw)
+        self.__button_cancelar = Button(
+                self, text="Cancelar", command=self.destroy)
         
         self.__entry_cep.rule_add(5, '-')
 
@@ -72,26 +74,42 @@ class ClientForm(Frame):
         self.grid_columnconfigure(index=0, minsize=1, weight=5)
         self.grid_columnconfigure(index=1, minsize=1, weight=1)
         self.grid_columnconfigure(index=2, minsize=1, weight=1)
-        
-        self.__entry_rsocial.grid(row=0, column=0, columnspan=6, stick='ew', pady=3)
-        self.__entry_nfantasia.grid(row=1, column=0, stick='ew', pady=3)
-        self.__entry_cnpj.grid(row=1, column=1, columnspan=5, stick='ew', pady=3)
-        self.__entry_iestadual.grid(row=2, column=0, stick='ew', pady=3)
-        self.__entry_imunicipal.grid(row=2, column=1, columnspan=5, stick='ew', pady=3)
-        self.__entry_logradouro.grid(row=3, column=0, columnspan=6, stick='ew', pady=3)
-        self.__entry_complemento.grid(row=4, column=0, stick='ew', pady=3)
-        self.__entry_bairro.grid(row=4, column=1, columnspan=5, stick='ew', pady=3)
-        self.__entry_municipio.grid(row=5, column=0, stick='ew', pady=3)
-        self.__entry_uf.grid(row=5, column=1, columnspan=2, stick='ew', pady=3)
-        self.__entry_cep.grid(row=5, column=3, columnspan=4, stick='ew', pady=3)
-        self.__entry_telefone.grid(row=6, column=0, stick='ew', pady=3)
-        self.__entry_ncel.grid(row=6, column=1, columnspan=4, stick='ew', pady=3)
-        self.__check_whatsapp.grid(row=6, column=5, stick='nsew', pady=3)
-        self.__entry_email.grid(row=7, column=0, columnspan=6, stick='ew', pady=3)
-        self.__entry_url.grid(row=8, column=0, columnspan=6, stick='ew', pady=3)
+       
+        self.__label_rsocial.grid(row=0, column=0, stick='w')
+        self.__label_nfantasia.grid(row=2, column=0, stick='w')
+        self.__label_cnpj.grid(row=2, column=1, stick='w')
+        self.__label_iestadual.grid(row=4, column=0, stick='w')  
+        self.__label_imunicipal.grid(row=4, column=1, stick='w')
+        self.__label_logradouro.grid(row=6, column=0, stick='w')  
+        self.__label_complemento.grid(row=8, column=0, stick='w')
+        self.__label_bairro.grid(row=8, column=1, stick='w')
+        self.__label_municipio.grid(row=10, column=0, stick='w')
+        self.__label_uf.grid(row=10, column=1, stick='w')
+        self.__label_cep.grid(row=10, column=3, stick='w')    
+        self.__label_telefone.grid(row=12, column=0, stick='w')   
+        self.__label_ncel.grid(row=12, column=1, stick='w')
+        self.__label_email.grid(row=14, column=0, stick='w')   
+        self.__label_url.grid(row=16, column=0, stick='w')
 
-        self.__button_salvar.grid(row=9, column=4, stick='e')
-        self.__button_cancelar.grid(row=9, column=5, stick='e')
+        self.__entry_rsocial.grid(row=1, column=0, columnspan=6, stick='ew', pady=3)
+        self.__entry_nfantasia.grid(row=3, column=0, stick='ew', pady=3)
+        self.__entry_cnpj.grid(row=3, column=1, columnspan=5, stick='ew', pady=3)
+        self.__entry_iestadual.grid(row=5, column=0, stick='ew', pady=3)
+        self.__entry_imunicipal.grid(row=5, column=1, columnspan=5, stick='ew', pady=3)
+        self.__entry_logradouro.grid(row=7, column=0, columnspan=6, stick='ew', pady=3)
+        self.__entry_complemento.grid(row=9, column=0, stick='ew', pady=3)
+        self.__entry_bairro.grid(row=9, column=1, columnspan=5, stick='ew', pady=3)
+        self.__entry_municipio.grid(row=11, column=0, stick='ew', pady=3)
+        self.__entry_uf.grid(row=11, column=1, columnspan=2, stick='ew', pady=3)
+        self.__entry_cep.grid(row=11, column=3, columnspan=4, stick='ew', pady=3)
+        self.__entry_telefone.grid(row=13, column=0, stick='ew', pady=3)
+        self.__entry_ncel.grid(row=13, column=1, columnspan=4, stick='ew', pady=3)
+        self.__check_whatsapp.grid(row=13, column=5, stick='nsew', pady=3)
+        self.__entry_email.grid(row=15, column=0, columnspan=6, stick='ew', pady=3)
+        self.__entry_url.grid(row=17, column=0, columnspan=6, stick='ew', pady=3)
+
+        self.__button_salvar.grid(row=18, column=4, stick='e', pady=3)
+        self.__button_cancelar.grid(row=18, column=5, stick='e', pady=3)
 
     def get_rsocial(self):
         self.__entry_rsocial.get_raw()

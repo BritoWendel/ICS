@@ -10,29 +10,18 @@ SYMBOLS = "!@#$%^&*()_-+=\\/?.,<>'\"[]{}"
 ALPHANUMERICSYMBOLIC = ALPHANUMERIC + SYMBOLS
 SPACE = " "
 
-class LabelEntry(Frame):
-    def __init__(self, master, text, mask, lenght):
-        super().__init__(master)
-        self.__label = Label(master=self, text=text, anchor='w')
-        self.__label.grid(row=0, column=0, stick='w')
+class EEntry(Entry):
+    def __init__(self, master, mask, lenght):
         self.__var = StringVar()
+        super().__init__(master, textvariable=self.__var)
         self.__mask = mask
         self.__lenght = lenght
-        self.__entry = Entry(self, textvariable=self.__var)
-        self.__var.trace("w", lambda name, index, mode, var=self.__var:self.__update())
-        self.__entry.grid(row=1, column=0, stick='nsew')
+        self.__var.trace("w", self.__update)
         self.__rule_list = []
-        self.columnconfigure(index=0, weight=1)
-        self.rowconfigure(index=1, weight=1)
 
     def rule_add(self, pos, symbol):
         self.__rule_list.append([pos+len(self.__rule_list), symbol])
         self.__lenght += len(symbol)
-        return self
-
-    def multiple_rule_add(self, rules):
-        for rule in rules:
-            self.rule_add(rule[0], rule[1])
 
     def get_raw(self):
         text = self.get()
@@ -48,6 +37,7 @@ class LabelEntry(Frame):
                         tmp_rule_list[i][0] -= 1
             else:
                 del tmp_rule_list[0]
+        print(text)
         return text
 
     def set_raw(self, value):
@@ -56,24 +46,13 @@ class LabelEntry(Frame):
             if len_value > i[0]:
                 value = value[:i[0]] + i[1] + value[i[0]:]
                 len_value += 1 
-        self.set(value)
-                
-    def get(self):
-        return self.__entry.get()
+        self.value_replace(value)
 
-    def set(self, value):
-        self.__entry.delete(0, END)
-        self.__entry.insert(0, value)
+    def value_replace(self, value):
+        self.delete(0, END)
+        self.insert(0, value)
 
-    def insert(self, value):
-        text = self.get()
-        self.__entry.insert(END, value)
-        self.__entry.icursor(len(text)+1)
-
-    def focus(self):
-        self.__entry.focus()
-
-    def __update(self):
+    def __update(self, *args):
         text = self.get()
         len_text = len(text)
         len_rule = len(self.__rule_list)
@@ -84,16 +63,15 @@ class LabelEntry(Frame):
                     for rule in self.__rule_list:
                         if len_text == (rule[0]+1):
                             final_text = text[:-1] + rule[1] + text[-1]
-                            self.set(final_text)
+                            self.value_replace(final_text)
                         elif text[-1] == rule[1] or not text[-1] in self.__mask:
-                            self.set(text[:-1])
+                            self.value_replace(text[:-1])
+                    if len_rule > 0:
+                        if text[-1] == self.__rule_list[-1][1]:
+                            self.value_replace(text[:-1])
                 else:
                     if not text[-1] in self.__mask:
-                        self.set(text[:-1])
+                        self.value_replace(text[:-1])
             else:
-                self.set(text[:self.__lenght])
-
-            if len_rule > 0:
-                if text[-1] == self.__rule_list[-1][1]:
-                    self.set(text[:-1])
+                self.value_replace(text[:self.__lenght])
 
