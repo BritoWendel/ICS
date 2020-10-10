@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 
-from tkinter import *
-
-from windows.ClientInsert import *
+from ClientInsert import *
 
 def main():
     instance_insert = ClientInsert()

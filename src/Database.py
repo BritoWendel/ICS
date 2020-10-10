@@ -5,6 +5,7 @@ class Database(object):
         self.__conn = mysql.connector.connect(
                 user=user, password=passwd, host=host, database=db
         )
+
     def __concat(self, fields):
         tmp_str = ""
         tmp_len = len(fields)
@@ -49,10 +50,12 @@ class Database(object):
         db_dict.close()
         return db_data
 
-    def select(self, table, fields, where_fields = None, where_values = None, order_by = None, limit = None, offset = None):
+    def select(self, table, fields, where_fields = None, where_values = None,
+            order_by = None, limit = None, offset = None):
         db_query = "SELECT " + self.__concat(fields) + " FROM " + table
         if (where_fields != None or where_values != None):
-            db_query += " WHERE " + self.__concat_values(where_fields, where_values) 
+            db_query += " WHERE "
+            db_query += self.__concat_values(where_fields, where_values) 
             where = True
         if (order_by != None):
             db_query += " ORDER BY " + order_by
@@ -63,7 +66,8 @@ class Database(object):
         return self.__query_fetchall(db_query)
 
     def insert(self, table, fields, values):
-        db_query = "INSERT INTO " + table + " (" + self.__concat(fields) + ") VALUES ("
+        db_query = "INSERT INTO " + table + " (" 
+        db_query += self.__concat(fields) + ") VALUES ("
         db_query += self.__concat_format(values) + ")" 
         self.__query_commit(db_query)
 
@@ -72,8 +76,10 @@ class Database(object):
         db_query += self.__concat_values(where_fields, where_values)
         self.__query_commit(db_query)
 
-    def update(self, table, set_fields, set_values, where_fields, where_values):
-        db_query = "UPDATE " + table + " SET " + self.__concat_values(set_fields, set_values) 
-        db_query += " WHERE " + self.__concat_values(where_fields, where_values)
+    def update(self, table, set_fields, set_values,
+            where_fields, where_values):
+        db_query = "UPDATE " + table + " SET " 
+        db_query += self.__concat_values(set_fields, set_values) + " WHERE "
+        db_query += self.__concat_values(where_fields, where_values)
         self.__query_commit(db_query)
 
