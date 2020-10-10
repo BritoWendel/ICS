@@ -1,12 +1,19 @@
 from tkinter import *
 import tkinter.ttk as ttk
 
-from CenteredWindow import CenteredWindow
 from Tracer import *
 
-class ClientForm(CenteredWindow):
+class ClientForm(Tk):
     def __init__(self, title):
-        super().__init__(800, 487, title)
+        super().__init__()
+        self.geometry("{}x{}+{}+{}".format(
+            800, 487,
+            self.winfo_screenwidth()//2 - 800//2,
+            self.winfo_screenheight()//2 - 487//2
+            )
+        )
+        self.title(title)
+        self.resizable(False, False)
 
         self.__frame_border = Frame(self)
         

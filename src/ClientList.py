@@ -1,11 +1,17 @@
 from tkinter import *
 import tkinter.ttk as ttk
 
-from CenteredWindow import CenteredWindow
-
-class ClientList(CenteredWindow):
+class ClientList(Tk):
     def __init__(self):
-        super().__init__(800, 487, "Listagem de Clientes")
+        super().__init__()
+        self.geometry("{}x{}+{}+{}".format(
+            800, 487,
+            self.winfo_screenwidth()//2 - 800//2,
+            self.winfo_screenheight()//2 - 487//2
+            )
+        )
+        self.title("Listagem de Clientes")
+        self.resizable(False, False)
 
         self.__frame_border = Frame(self)
 
