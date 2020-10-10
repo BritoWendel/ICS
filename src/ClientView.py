@@ -1,4 +1,4 @@
-from windows.CenteredWindow import *
+from  CenteredWindow import CenteredWindow
 from widgets.ClientForm import *
 
 class ClientView(CenteredWindow):

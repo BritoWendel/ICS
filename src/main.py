@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
-from ClientInsert import *
+from ClientList import *
 
 def main():
-    instance_insert = ClientInsert()
+    instance_insert = ClientList()
     instance_insert.mainloop()
 
 if __name__ == "__main__":
