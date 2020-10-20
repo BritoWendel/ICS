@@ -3,16 +3,15 @@ import tkinter.ttk as ttk
 
 from Tracer import *
 
-class ClientForm(Tk):
-    def __init__(self, title):
-        super().__init__()
+class ClientForm(Toplevel):
+    def __init__(self, master):
+        super().__init__(master)
         self.geometry("{}x{}+{}+{}".format(
             800, 487,
             self.winfo_screenwidth()//2 - 800//2,
             self.winfo_screenheight()//2 - 487//2
             )
         )
-        self.title(title)
         self.resizable(False, False)
 
         self.__frame_border = Frame(self)
@@ -84,10 +83,11 @@ class ClientForm(Tk):
         self.__entry_bairro = Entry(self.__frame_border,
                 textvariable=self.__str_bairro)
 
-        self.__entry_municipio = ttk.Combobox(self.__frame_border,
-                values=["Exemplo 1", "Exemplo 2"])
-        self.__entry_uf = ttk.Combobox(self.__frame_border,
-                values=["Exemplo 1", "Exemplo 2"])
+        self.__combo_municipio = ttk.Combobox(self.__frame_border,
+                textvariable=self.__str_municipio)
+        
+        self.__combo_uf = ttk.Combobox(self.__frame_border,
+                state="readonly", textvariable=self.__str_uf)
 
         self.__entry_cep = Entry(self.__frame_border,
                 textvariable=self.__str_cep)
@@ -105,9 +105,9 @@ class ClientForm(Tk):
                 textvariable=self.__str_url)
         
         self.__button_salvar = Button(
-                self.__frame_border, text="Salvar", command=self.destroy)
+                self.__frame_border, text="Salvar")
         self.__button_cancelar = Button(
-                self.__frame_border, text="Cancelar", command=self.destroy)
+                self.__frame_border, text="Cancelar")
 
         self.__rule_rsocial = [ 
                 ALPHANUMERIC + SPACE, 255 ]
@@ -132,13 +132,23 @@ class ClientForm(Tk):
         self.__rule_cep = [ 
                 NUMERIC, 8, [5, '-'] ]
         self.__rule_telefone = [
-                NUMERIC, 10, [0, '('], [2, ') '], [7, '-'] ]
+                NUMERIC, 30,
+                [0, '('],
+                [2, ') '],
+                [7, '-'],
+                [11, '; ('],
+                [15, ') '],
+                [20, '-'],
+                [24, '; ('],
+                [28, ') '],
+                [33, '-']
+                ]
         self.__rule_ncel = [ 
                 NUMERIC, 11, [0, '('], [2, ') '], [4, ' '], [8, '-'] ]
         self.__rule_email = [ 
                 ALPHANUMERIC + "_@-.", 255 ]
         self.__rule_url = [ 
-                ALPHANUMERIC + "_-./", 255 ]
+                ALPHANUMERIC + "_-./:", 255 ]
 
         self.__tracer_rsocial = Tracer(self.__entry_rsocial,
                 self.__rule_rsocial)
@@ -156,10 +166,8 @@ class ClientForm(Tk):
                 self.__rule_complemento)
         self.__tracer_bairro = Tracer(self.__entry_bairro,
                 self.__rule_bairro)
-        self.__tracer_municipio = Tracer(self.__entry_municipio,
+        self.__tracer_municipio = Tracer(self.__combo_municipio,
                 self.__rule_municipio)
-        self.__tracer_uf = Tracer(self.__entry_uf,
-                self.__rule_uf)
         self.__tracer_cep = Tracer(self.__entry_cep,
                 self.__rule_cep)
         self.__tracer_telefone = Tracer(self.__entry_telefone,
@@ -180,7 +188,6 @@ class ClientForm(Tk):
         self.__str_complemento.trace("w", self.__tracer_complemento.update)
         self.__str_bairro.trace("w", self.__tracer_bairro.update)
         self.__str_municipio.trace("w", self.__tracer_municipio.update)
-        self.__str_uf.trace("w", self.__tracer_uf.update)
         self.__str_cep.trace("w", self.__tracer_cep.update)
         self.__str_telefone.trace("w", self.__tracer_telefone.update)
         self.__str_ncel.trace("w", self.__tracer_ncel.update)
@@ -223,9 +230,9 @@ class ClientForm(Tk):
                 stick='ew', pady=3)
         self.__entry_bairro.grid(row=9, column=1, columnspan=5,
                 stick='ew', pady=3)
-        self.__entry_municipio.grid(row=11, column=0,
+        self.__combo_municipio.grid(row=11, column=0,
                 stick='ew', pady=3)
-        self.__entry_uf.grid(row=11, column=1, columnspan=2,
+        self.__combo_uf.grid(row=11, column=1, columnspan=2,
                 stick='ew', pady=3)
         self.__entry_cep.grid(row=11, column=3, columnspan=4,
                 stick='ew', pady=3)

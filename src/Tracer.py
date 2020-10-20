@@ -27,9 +27,15 @@ class Tracer(object):
         self.__entry.delete(0, 'end')
         self.__entry.insert(0, value)
 
-    def get(self):
+    def get(self, entry_value=None):
         text = ""
-        for char in self.__entry.get():
+        if entry_value == None:
+            entry_value = self.__entry.get()
+
+        if entry_value == "":
+            return entry_value
+
+        for char in entry_value:
             if char in self.__rules[0]:
                 text += char
         return text
@@ -51,7 +57,13 @@ class Tracer(object):
             return
 
         if text[-1] not in self.__rules[0] or len_text > self.__rules[1]:
-            index = -2 if len_text > 1 and text[-2] == ')' else -1
+            if len_text > 1 and (text[-2] == ')' or text[-2] == ' '):
+                if text[-3] == ';':
+                    index = -3
+                else:
+                    index = -2
+            else:
+                index = -1
             self.__replace(text[:index])
             return
 
