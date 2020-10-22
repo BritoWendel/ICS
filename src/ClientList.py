@@ -114,8 +114,11 @@ class ClientList(Tk):
         tmp = self.label_combo("Página:", self.__frame_row3)
         self.__frame_pagina = tmp[0]
         self.__combo_pagina = tmp[1]
+        self.__str_pagina = StringVar()
+        self.__combo_pagina['textvariable'] = self.__str_pagina
         self.__combo_pagina['values'] = ["0"]
         self.__combo_pagina.current(0)
+        self.__str_pagina.trace("w", self.__change_pagina)
         self.__frame_pagina.grid(row=0, column=4, stick='ew', pady=4)
 
         self.__frame_row3.grid(row=3, column=0)
@@ -254,7 +257,8 @@ class ClientList(Tk):
         campo_ordem = "ASC" if self.__combo_ordem.get() == "Crescente" else "DESC"
 
         if len(self.__entry_pesquisa.get()) == 0:
-            table = self.__db.select("CLIENTE", [field])
+            table = self.__db.select("CLIENTE", [field],
+                    order_by=campo_pesquisa + " " + campo_ordem)
         else:
             table = self.__db.select("CLIENTE",
                     [field],
@@ -325,6 +329,14 @@ class ClientList(Tk):
 
         return tmp
 
+    def __process_pag_number(self):
+        pag_number = len(self.__table_cliente[0])//20
+        tmp = []
+        for i in range(pag_number+1):
+            tmp.append(i)
+        self.__combo_pagina['values'] = tmp
+        self.__combo_pagina.current(0)
+
     def __filter_client(self):
         for i in self.__tree.get_children():
             self.__tree.delete(i)
@@ -361,6 +373,8 @@ class ClientList(Tk):
         
             self.__table_cliente.append(self.__general_client_query(campo))
 
+        self.__process_pag_number()
+
         if len(self.__table_cliente[0]) == 0:
             self.__tree.insert('', 'end', values=[
                 "Sem resultados.",
@@ -377,19 +391,30 @@ class ClientList(Tk):
         self.__button_editar["state"] = "normal"
         self.__button_deletar["state"] = "normal"
 
+        child_id = self.__tree.get_children()[0]
+        self.__tree.focus(child_id)
+        self.__tree.selection_set(child_id)
+
+    def __change_pagina(self, *args):
+        for i in self.__tree.get_children():
+            self.__tree.delete(i)
+
         values = ["", "", "", ""]
-        for i in range(len(self.__table_cliente[0])):
+        actual_index = int(self.__combo_pagina.get())*20
+        
+        consult_size = len(self.__table_cliente[0])
+        if actual_index + 20 > consult_size:
+            final_index = consult_size
+        else:
+            final_index = actual_index + 20
+
+        for i in range(actual_index, final_index):
             values[0] = self.__table_cliente[1][i]
             values[1] = self.__table_cliente[2][i]
             values[2] = self.__table_cliente[3][i]
             values[3] = self.__table_cliente[4][i]
             self.__tree.insert('', 'end', values=values)
-
-        child_id = self.__tree.get_children()[0]
-        self.__tree.focus(child_id)
-        self.__tree.selection_set(child_id)
-
-        #Paginação
+        return
 
     def __get_client_id(self):
         selection = self.__tree.index(self.__tree.selection())
