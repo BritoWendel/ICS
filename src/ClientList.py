@@ -393,7 +393,7 @@ class ClientList(Tk):
 
     def __get_client_id(self):
         selection = self.__tree.index(self.__tree.selection())
-        return self.__table_cliente[selection]["id_cliente"]
+        return self.__table_cliente[0][selection]
 
     def __insert_client(self):
         instance_insert = ClientInsert(self.__db, self)
