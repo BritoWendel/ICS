@@ -230,10 +230,8 @@ class ClientList(Tk):
             return value[:5] + "-" + value[5:]
         if name == "numero_telefone":
             tmp = ""
-            print(value)
             for element in value:
-                if (int(element["numero_telefone"]) != 0 and
-                    int(element["ddd_telefone"]) != 0):
+                if element["numero_telefone"] != 0 and element["ddd_telefone"] != 0:
                     tmp += "(" + str(element["ddd_telefone"]) + ") " 
                     tmp += str(element["numero_telefone"])[:4] + "-"
                     tmp += str(element["numero_telefone"])[4:] + "; "
@@ -242,88 +240,17 @@ class ClientList(Tk):
             return tmp
         if name == "ncel_cliente":
             value = str(value)
-            return value[:1] + " " + value[1:5] + "-" + value[5:]
-        if name == "ddd_cel_cliente":
-            value = str(value)
-            return "(" + value[:2] + ") "
+            return "(" + value[:2] + ") " + value[2:3] + " " + value[3:7] + "-" + value[7:]
         value = str(value)
         return value
 
-    def __general_client_query(self, field):
-        campo_pesquisa = self.__combo_to_database(self.__combo_selecao_pesquisa.get())
-        campo_ordem = "ASC" if self.__combo_ordem.get() == "Crescente" else "DESC"
-
-        if len(self.__entry_pesquisa.get()) == 0:
-            table = self.__db.select("CLIENTE", [field])
-        else:
-            table = self.__db.select("CLIENTE",
-                    [field],
-                    [campo_pesquisa],
-                    [self.__entry_pesquisa.get()],
-                    campo_pesquisa + " " + campo_ordem)
-
-        tmp = []
-        for i in range(len(table)):
-            tmp.append(self.__format_result(field, table[i][field]))
-        return tmp
-
-    def __nome_municipio_query(self):
-        id_list = self.__general_client_query('id_cliente')
-        tmp = []
-        for ident in id_list:
-            id_municipio_cliente = str(self.__db.select("CLIENTE",
-                    ["id_municipio_cliente"],
-                    ["id_cliente"],
-                    [str(ident)]
-                    )[0]["id_municipio_cliente"])
-            nome_municipio = str(self.__db.select("MUNICIPIO",
-                    ["nome_municipio"],
-                    ["id_municipio"],
-                    [id_municipio_cliente])[0]["nome_municipio"])
-            tmp.append(nome_municipio)
-        return tmp
-    
-    def __nome_uf_query(self):
-        id_list = self.__general_client_query('id_cliente')
-        tmp = []
-        for ident in id_list:
-            id_municipio_cliente = str(self.__db.select("CLIENTE",
-                    ["id_municipio_cliente"],
-                    ["id_cliente"],
-                    [str(ident)]
-                    )[0]["id_municipio_cliente"])
-            id_uf_municipio = str(self.__db.select("MUNICIPIO",
-                    ["id_uf_municipio"],
-                    ["id_municipio"],
-                    [id_municipio_cliente])[0]["id_uf_municipio"])
-            nome_uf = str(self.__db.select("UF",
-                    ["nome_uf"],
-                    ["id_uf"],
-                    [id_uf_municipio])[0]["nome_uf"])
-            tmp.append(nome_uf)
-        return tmp
-    
-    def __numero_telefone_query(self):
-        id_list = self.__general_client_query('id_cliente')
-        tmp = []
-        for ident in id_list:
-            table = self.__db.select("TELEFONE",
-                        ["ddd_telefone", "numero_telefone"],
-                        ["id_cliente_telefone"],
-                        [str(ident)])
-            tmp.append(self.__format_result("numero_telefone", table))
-        return tmp
-
-    def __ncel_cliente_query(self):
-        ddd = self.__general_client_query('ddd_cel_cliente')
-        ncel = self.__general_client_query('ncel_cliente')
-
-        tmp = []
-        for i in range(len(ddd)):
-            full = str(ddd[i]) + str(ncel[i])
-            tmp.append(full)
-
-        return tmp
+    def __general_client_query(self, field_get, field_search, value_search,
+            field_order, order):
+            return self.__db.select("CLIENTE",
+                    field_get,
+                    [field_search],
+                    [value_search],
+                    field_order + " " + order)
 
     def __filter_client(self):
         for i in self.__tree.get_children():
@@ -334,34 +261,64 @@ class ClientList(Tk):
         self.__tree.heading(3, text=self.__combo_campo_3.get())
         self.__tree.heading(4, text=self.__combo_campo_4.get())
 
+        if self.__combo_selecao_pesquisa.get() == "CNPJ":
+            campo_pesquisa = "cnpj_cliente"
+        else:
+            campo_pesquisa = "rsocial_cliente"
+
+        if self.__combo_ordem.get() == "Crescente":
+            campo_ordem = "ASC"
+        else:
+            campo_ordem = "DESC"
+
         self.__campo_db = ["id_cliente"]
-        self.__campo_db.append(self.__combo_to_database(
-            self.__combo_campo_1.get()))
-        self.__campo_db.append(self.__combo_to_database(
-            self.__combo_campo_2.get()))
-        self.__campo_db.append(self.__combo_to_database(
-            self.__combo_campo_3.get()))
-        self.__campo_db.append(self.__combo_to_database(
-            self.__combo_campo_4.get()))
+        self.__campo_db.append(self.__combo_to_database(self.__combo_campo_1.get()))
+        self.__campo_db.append(self.__combo_to_database(self.__combo_campo_2.get()))
+        self.__campo_db.append(self.__combo_to_database(self.__combo_campo_3.get()))
+        self.__campo_db.append(self.__combo_to_database(self.__combo_campo_4.get()))
 
-        self.__table_cliente = []
-        for campo in self.__campo_db:
-            if campo == "nome_uf":
-                self.__table_cliente.append(self.__nome_uf_query())
-                continue
-            elif campo == "nome_municipio":
-                self.__table_cliente.append(self.__nome_municipio_query())
-                continue
-            elif campo == "numero_telefone":
-                self.__table_cliente.append(self.__numero_telefone_query())
-                continue
-            elif campo == "ncel_cliente":
-                self.__table_cliente.append(self.__ncel_cliente_query())
-                continue
+        search_telefone = False
+        pos_telefone = 0
+
+        search_municipio = False
+        pos_municipio = 0
+
+        search_uf = False
+        pos_uf = 0
+
+        for i in range(len(self.__campo_db)):
+            if i < len(self.__campo_db):
+                if self.__campo_db[i] == "numero_telefone":
+                    search_telefone = True
+                    pos_telefone = i
+                    self.__campo_db.remove(self.__campo_db[i])
+
+        for i in range(len(self.__campo_db)):
+            if i < len(self.__campo_db):
+                if self.__campo_db[i] == "nome_municipio":
+                    search_municipio = True
+                    pos_municipio = i
+                    self.__campo_db.remove(self.__campo_db[i])
         
-            self.__table_cliente.append(self.__general_client_query(campo))
+        for i in range(len(self.__campo_db)):
+            if i < len(self.__campo_db):
+                if self.__campo_db[i] == "nome_uf":
+                    search_uf = True
+                    pos_uf = i
+                    self.__campo_db.remove(self.__campo_db[i])
 
-        if len(self.__table_cliente[0]) == 0:
+        value_pesquisa = self.__entry_pesquisa.get()
+        if len(value_pesquisa) == 0:
+            self.__table_cliente = self.__db.select("CLIENTE",
+                    self.__campo_db)
+        else:
+            self.__table_cliente = self.__db.select("CLIENTE",
+                    self.__campo_db,
+                    [campo_pesquisa],
+                    [value_pesquisa],
+                    campo_pesquisa + " " + campo_ordem)
+
+        if len(self.__table_cliente) == 0:
             self.__tree.insert('', 'end', values=[
                 "Sem resultados.",
                 "", "", ""])
@@ -377,19 +334,70 @@ class ClientList(Tk):
         self.__button_editar["state"] = "normal"
         self.__button_deletar["state"] = "normal"
 
-        values = ["", "", "", ""]
-        for i in range(len(self.__table_cliente[0])):
-            values[0] = self.__table_cliente[1][i]
-            values[1] = self.__table_cliente[2][i]
-            values[2] = self.__table_cliente[3][i]
-            values[3] = self.__table_cliente[4][i]
-            self.__tree.insert('', 'end', values=values)
+        if search_telefone:
+            self.__campo_db.insert(pos_telefone, 'numero_telefone')
+            for i in range(len(self.__table_cliente)):
+                tmp = self.__db.select("TELEFONE",
+                        ["ddd_telefone", "numero_telefone"],
+                        ["id_cliente_telefone"],
+                        [str(self.__table_cliente[i]["id_cliente"])])
+                self.__table_cliente[i]['numero_telefone'] = tmp
+        
+        if search_municipio:
+            self.__campo_db.insert(pos_municipio, 'nome_municipio')
+            for i in range(len(self.__table_cliente)):
+                id_municipio_cliente = str(self.__db.select("CLIENTE",
+                        ["id_municipio_cliente"],
+                        ["id_cliente"],
+                        [str(self.__table_cliente[i]["id_cliente"])]
+                        )[0]["id_municipio_cliente"])
+                nome_municipio = str(self.__db.select("MUNICIPIO",
+                        ["nome_municipio"],
+                        ["id_municipio"],
+                        [id_municipio_cliente])[0]["nome_municipio"])
+                self.__table_cliente[i]['nome_municipio'] = nome_municipio
+        
+        if search_uf:
+            self.__campo_db.insert(pos_uf, 'nome_uf')
+            for i in range(len(self.__table_cliente)):
+                id_municipio_cliente = str(self.__db.select("CLIENTE",
+                        ["id_municipio_cliente"],
+                        ["id_cliente"],
+                        [str(self.__table_cliente[i]["id_cliente"])]
+                        )[0]["id_municipio_cliente"])
+                id_uf_municipio = str(self.__db.select("MUNICIPIO",
+                        ["id_uf_municipio"],
+                        ["id_municipio"],
+                        [id_municipio_cliente])[0]["id_uf_municipio"])
+                nome_uf = str(self.__db.select("UF",
+                        ["nome_uf"],
+                        ["id_uf"],
+                        [id_uf_municipio])[0]["nome_uf"])
+                self.__table_cliente[i]['nome_uf'] = nome_uf
+
+        for cliente in self.__table_cliente:
+            values = []
+            for attribute in self.__campo_db:
+                if attribute == "ncel_cliente":
+                    ddd = str(self.__db.select("CLIENTE",
+                            ["ddd_cel_cliente"],
+                            ["id_cliente"],
+                            [str(values[0])])[0]["ddd_cel_cliente"])
+                    values.append(str(cliente[attribute]) + ddd)
+                else:
+                    values.append(cliente[attribute])
+            for i in range(len(values)-1):
+                values[i] = self.__format_result(self.__campo_db[i+1], values[i+1])
+            self.__tree.insert('', 'end', values=values[:4])
 
         child_id = self.__tree.get_children()[0]
         self.__tree.focus(child_id)
         self.__tree.selection_set(child_id)
 
+        #TODO
         #Paginação
+        #Criar condição de consulta ao nome do municipio
+        #Criar condição de consulta ao nome do estado
 
     def __get_client_id(self):
         selection = self.__tree.index(self.__tree.selection())
