@@ -1,3 +1,5 @@
+import os
+
 from tkinter import *
 import tkinter.ttk as ttk
 
@@ -18,12 +20,21 @@ class ClientList(Tk):
 
     def __init__(self, db):
         super().__init__()
-        self.geometry("{}x{}+{}+{}".format(
-            1085, 590,
-            self.winfo_screenwidth()//2 - 1085//2,
-            self.winfo_screenheight()//2 - 590//2
+
+        if os.name == 'nt':
+            self.geometry("{}x{}+{}+{}".format(
+                1000, 590,
+                self.winfo_screenwidth()//2 - 1085//2,
+                self.winfo_screenheight()//2 - 590//2
+                )
             )
-        )
+        else:
+            self.geometry("{}x{}+{}+{}".format(
+                1085, 590,
+                self.winfo_screenwidth()//2 - 1085//2,
+                self.winfo_screenheight()//2 - 590//2
+                )
+            )
 
         self.__db = db
 
@@ -264,7 +275,8 @@ class ClientList(Tk):
                     [field],
                     [campo_pesquisa],
                     [self.__entry_pesquisa.get()],
-                    campo_pesquisa + " " + campo_ordem)
+                    like=True,
+                    order_by=campo_pesquisa + " " + campo_ordem)
 
         tmp = []
         for i in range(len(table)):

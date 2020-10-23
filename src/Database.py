@@ -39,6 +39,15 @@ class Database(object):
             if text[i] == ",":
                 text = text[:i] + " AND" + text[i+1:]
         return text
+    
+    def __concat_like(self, fields, values):
+        tmp_str = ""
+        tmp_len = len(fields)
+        for i in range(0, tmp_len):
+            tmp_str += fields[i] + " LIKE \"%" + values[i] + "%\""
+            if (i != tmp_len-1):
+                tmp_str += " OR "
+        return tmp_str
 
     def __query_exec(self, query):
         db_dict = self.__conn.cursor(dictionary=True)
@@ -60,11 +69,14 @@ class Database(object):
         return self.__query_fetchall("SELECT LAST_INSERT_ID()")
 
     def select(self, table, fields, where_fields = None, where_values = None,
-            order_by = None, limit = None, offset = None):
+            order_by = None, limit = None, offset = None, like = None):
         db_query = "SELECT " + self.__concat(fields) + " FROM " + table
-        if (where_fields != None or where_values != None):
+        if (where_fields != None and where_values != None):
             db_query += " WHERE "
-            db_query += self.__concat_values_and(where_fields, where_values) 
+            if (like):
+                db_query += self.__concat_like(where_fields, where_values) 
+            else:
+                db_query += self.__concat_values_and(where_fields, where_values) 
             where = True
         if (order_by != None):
             db_query += " ORDER BY " + order_by
