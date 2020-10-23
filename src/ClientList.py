@@ -23,7 +23,7 @@ class ClientList(Tk):
 
         if os.name == 'nt':
             self.geometry("{}x{}+{}+{}".format(
-                1000, 590,
+                1010, 590,
                 self.winfo_screenwidth()//2 - 1085//2,
                 self.winfo_screenheight()//2 - 590//2
                 )
