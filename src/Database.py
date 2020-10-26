@@ -3,7 +3,7 @@ import mysql.connector
 class Database(object):
     def __init__(self, user, passwd, host, db):
         self.__conn = mysql.connector.connect(
-                user=user, password=passwd, host=host, database=db
+                user=user, password=passwd, host=host, database=db, auth_plugin='mysql_native_password'
         )
 
     def __concat(self, fields):

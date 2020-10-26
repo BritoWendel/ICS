@@ -1,17 +1,26 @@
 from tkinter import *
 import tkinter.ttk as ttk
+import os
 
 from Tracer import *
 
 class ClientForm(Toplevel):
     def __init__(self, master):
         super().__init__(master)
-        self.geometry("{}x{}+{}+{}".format(
-            800, 487,
-            self.winfo_screenwidth()//2 - 800//2,
-            self.winfo_screenheight()//2 - 487//2
+        if os.name == "nt":
+            self.geometry("{}x{}+{}+{}".format(
+                800, 467,
+                self.winfo_screenwidth()//2 - 800//2,
+                self.winfo_screenheight()//2 - 487//2
+                )
             )
-        )
+        else:
+            self.geometry("{}x{}+{}+{}".format(
+                800, 487,
+                self.winfo_screenwidth()//2 - 800//2,
+                self.winfo_screenheight()//2 - 487//2
+                )
+            )
         self.resizable(False, False)
 
         self.__frame_border = Frame(self)
