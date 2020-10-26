@@ -191,6 +191,7 @@ class ClientInsert(ClientForm):
                 self._ClientForm__label_cnpj.config(fg="black")
             else:
                 self._ClientForm__label_cnpj.config(fg="red")
+                error = True
 
         iestadual = self._ClientForm__tracer_iestadual.get()
 
@@ -205,6 +206,7 @@ class ClientInsert(ClientForm):
                 self._ClientForm__label_iestadual.config(fg="black")
             else:
                 self._ClientForm__label_iestadual.config(fg="red")
+                error = True
 
         imunicipal = self._ClientForm__tracer_imunicipal.get()
 
@@ -217,6 +219,7 @@ class ClientInsert(ClientForm):
                 self._ClientForm__label_imunicipal.config(fg="black")
             else:
                 self._ClientForm__label_imunicipal.config(fg="red")
+                error = True
 
         logradouro = self._ClientForm__str_logradouro.get()
 

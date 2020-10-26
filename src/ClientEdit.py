@@ -1,6 +1,6 @@
 from tkinter import messagebox
 
-from ClientInsert import ClientInsert
+from ClientInsert import *
 
 class ClientEdit(ClientInsert):
     def __init__(self, db, id_cliente, master):
@@ -80,13 +80,13 @@ class ClientEdit(ClientInsert):
         for i in range(0, len(self._ClientInsert__list_municipios)):
             if self._ClientInsert__list_municipios[i] == table_municipio['nome_municipio']:
                 self._ClientForm__combo_municipio.current(i)
-                
-
+    
     def __button_salvar_action(self):
         data = self._ClientInsert__data_validation()
         if data == None:
             return
-        self.__database_update(data)
+        else:
+            self.__database_update(data)
 
     def __database_update(self, data):
         rsocial = data[0]
