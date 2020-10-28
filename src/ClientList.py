@@ -1,4 +1,5 @@
 import os
+import time
 
 from tkinter import *
 import tkinter.ttk as ttk
@@ -68,7 +69,7 @@ class ClientList(Tk):
         self.__frame_ordem.grid(row=0, column=1, stick='w', pady=4)
 
         self.__button_filtrar = Button(self.__frame_row2, text='Filtrar',
-                command=self.__filter_client)
+                command=self.filter_client)
         self.__button_filtrar.grid(row=0, column=2, stick='e')
         
         self.__frame_row2.grid_columnconfigure(index=2, weight=1)
@@ -177,7 +178,7 @@ class ClientList(Tk):
         self.__frame_border.grid(row=0, column=0,
                 stick='ew', padx=10, pady=10)
 
-        self.__filter_client()
+        self.filter_client()
 
     def __handle_click(self, event):
             if self.__tree.identify_region(event.x, event.y) == "separator":
@@ -277,6 +278,23 @@ class ClientList(Tk):
                     [self.__entry_pesquisa.get()],
                     like=True,
                     order_by=campo_pesquisa + " " + campo_ordem)
+        
+        if (field == "cnpj_cliente" or field == "iestadual_cliente" or
+            field == "imunicipal_cliente"):
+            for i in range(len(table)):
+                zeroes_to_add = 0
+                if field == "cnpj_cliente":
+                    if len(str(table[i][field])) < 14:
+                        zeroes_to_add = 14 - len(str(table[i][field]))
+                elif field == "iestadual_cliente":
+                    if len(str(table[i][field])) < 12:
+                        zeroes_to_add = 12 - len(str(table[i][field]))
+                elif field == "imunicipal_cliente":
+                    if len(str(table[i][field])) < 8:
+                        zeroes_to_add = 8 - len(str(table[i][field]))
+                if zeroes_to_add != 0:
+                    for j in range(zeroes_to_add):
+                        table[i][field] = "0" + str(table[i][field])
 
         tmp = []
         for i in range(len(table)):
@@ -349,7 +367,7 @@ class ClientList(Tk):
         self.__combo_pagina['values'] = tmp
         self.__combo_pagina.current(0)
 
-    def __filter_client(self):
+    def filter_client(self):
         for i in self.__tree.get_children():
             self.__tree.delete(i)
 
@@ -434,15 +452,15 @@ class ClientList(Tk):
 
     def __insert_client(self):
         instance_insert = ClientInsert(self.__db, self)
-        self.__filter_client()
+        self.filter_client()
 
     def __edit_client(self):
         instance_edit = ClientEdit(self.__db, self.__get_client_id(), self)
-        self.__filter_client()
+        self.filter_client()
 
     def __view_client(self):
         instance_view = ClientView(self.__db, self.__get_client_id(), self)
-        self.__filter_client()
+        self.filter_client()
     
     def __delete_client(self):
         if messagebox.askyesno("Questão", "Deseja excluir?"):
@@ -450,5 +468,5 @@ class ClientList(Tk):
                     ["id_cliente_telefone"], str(self.__get_client_id()))
             self.__db.delete("CLIENTE",
                     ["id_cliente"], str(self.__get_client_id()))
-        self.__filter_client()
+            self.filter_client()
 

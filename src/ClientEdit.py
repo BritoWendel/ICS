@@ -8,6 +8,7 @@ class ClientEdit(ClientInsert):
         self.title('Editar Cliente')
 
         self.__id_cliente = id_cliente
+        self.__list = master
         
         table_cliente = db.select("CLIENTE", ["*"],
                 ['id_cliente'], [str(id_cliente)])[0]
@@ -188,4 +189,5 @@ class ClientEdit(ClientInsert):
         messagebox.showinfo("Informação", "Dados alterados!")
 
         self.destroy()
+        self.__list.filter_client()
 

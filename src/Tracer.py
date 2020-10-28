@@ -15,9 +15,10 @@ SYMBOLS = "!@#$%^&*()_-+=\\/?.,<>'\"[]{}"
 SPACE = " "
 
 class Tracer(object):
-    def __init__(self, entry, rules):
+    def __init__(self, entry, rules, zeroes=None):
         self.__rules = rules
         self.__entry = entry
+        self.__zeroes = zeroes
         
         for i in range(2, len(self.__rules)):
             self.__rules[i][0] += i - 2
@@ -42,6 +43,15 @@ class Tracer(object):
 
     def set(self, value):
         len_value = len(value)
+        real_size = self.__rules[1] - len(self.__rules[2:])
+        zero_increment = ""
+        if (len_value < real_size and
+            self.__rules[0] == NUMERIC and
+            self.__zeroes != None):
+            for i in range(real_size-len_value):
+                zero_increment += "0"
+            value = zero_increment + value
+            len_value = len(value)
         for i in range(2, len(self.__rules)):
             rule = self.__rules[i]
             if len_value > rule[0]:

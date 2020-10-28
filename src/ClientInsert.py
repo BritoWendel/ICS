@@ -25,6 +25,7 @@ class ClientInsert(ClientForm):
         super().__init__(master)
 
         self.__db = db
+        self.__list = master
 
         self.title('Cadastro de Cliente')
 
@@ -157,6 +158,7 @@ class ClientInsert(ClientForm):
         if data == None:
             return
         self.__database_insert(data)
+        self.__list.filter_client()
 
     def __data_validation(self):
         error = False
@@ -271,10 +273,19 @@ class ClientInsert(ClientForm):
 
         telefone = self._ClientForm__tracer_telefone.get()
         len_telefone = len(telefone)
+            
+        allowed_ddds = ["11", "12", "13", "14", "15", "16", "17", 18, "19"]
+        first_digit = ["2", "3", "4", "5"]
 
         if (telefone == "" or len_telefone < 10 or
         (len_telefone > 10 and len_telefone < 20) or
-        (len_telefone > 20 and len_telefone < 30)):
+        (len_telefone > 20 and len_telefone < 30) or
+        telefone[:2] not in allowed_ddds or
+        telefone[2:3] not in first_digit or
+        telefone[10:12] not in allowed_ddds or
+        telefone[12:13] not in first_digit or
+        telefone[20:22] not in allowed_ddds or
+        telefone[22:23] not in first_digit):
             self._ClientForm__label_telefone.config(fg="red")
             error = True
         else:
@@ -282,24 +293,28 @@ class ClientInsert(ClientForm):
             self.__number_telefone3 = "00000000"
             self.__ddd_telefone2 = "00"
             self.__number_telefone2 = "00000000"
+            
+            if len_telefone == 20:
+                self.__ddd_telefone2 = telefone[10:12]
+                self.__number_telefone2 = telefone[12:20]
 
             if len_telefone == 30:
                 self.__ddd_telefone3 = telefone[20:22]
                 self.__number_telefone3 = telefone[22:30]
                 self.__ddd_telefone2 = telefone[10:12]
                 self.__number_telefone2 = telefone[12:20]
-
-            if len_telefone == 20:
-                self.__ddd_telefone2 = telefone[10:12]
-                self.__number_telefone2 = telefone[12:20]
-
+            
             self.__ddd_telefone = telefone[:2]
             self.__number_telefone = telefone[2:10]
             self._ClientForm__label_telefone.config(fg="black")
 
         ncel = self._ClientForm__tracer_ncel.get()
+        
+        first_digit = ["6", "7", "8", "9"]
 
-        if ncel == "" or len(ncel) < 11:
+        if (ncel == "" or len(ncel) < 11 or
+            ncel[:2] not in allowed_ddds or
+            ncel[3:4] not in first_digit):
             self._ClientForm__label_ncel.config(fg="red")
             error = True
         else:
@@ -308,8 +323,30 @@ class ClientInsert(ClientForm):
         whatsapp = str(self._ClientForm__int_whatsapp.get())
 
         email = self._ClientForm__str_email.get()
+        
+        domain_br = [".com.br", ".net.br", ".edu.br"]
+        domain = [".com", ".net", ".edu"]
 
-        if email == "":
+        pos = 0
+        for char in email:
+            pos += 1
+            if char == "@":
+                break
+
+        pos_dominio = 0
+        for char in email[pos:]:
+            pos_dominio += 1
+            if char == ".":
+                break
+
+        count = 0
+        for char in email:
+            if char == "@":
+                count += 1
+
+        if (email == "" or pos < 2 or pos_dominio < 3 or count > 1 or
+            (email[len(email)-4:] not in domain and
+             email[len(email)-7:] not in domain_br)):
             self._ClientForm__label_email.config(fg="red")
             error = True
         else:
@@ -317,7 +354,18 @@ class ClientInsert(ClientForm):
 
         url = self._ClientForm__str_url.get()
 
-        if url == "":
+        pos = 0
+        for char in url[4:]:
+            pos += 1
+            if char == ".":
+                break
+
+        if (url == "" or pos < 3 or
+            url[3:] in domain or
+            url[3:] in domain_br or
+            url[:4] != "www." or
+            (url[len(url)-4:] not in domain and
+             url[len(url)-7:] not in domain_br)):
             self._ClientForm__label_url.config(fg="red")
             error = True
         else:

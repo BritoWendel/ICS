@@ -164,11 +164,11 @@ class ClientForm(Toplevel):
         self.__tracer_nfantasia = Tracer(self.__entry_nfantasia,
                 self.__rule_nfantasia)
         self.__tracer_cnpj = Tracer(self.__entry_cnpj,
-                self.__rule_cnpj)
+                self.__rule_cnpj, zeroes=True)
         self.__tracer_iestadual = Tracer(self.__entry_iestadual,
-                self.__rule_iestadual)
+                self.__rule_iestadual, zeroes=True)
         self.__tracer_imunicipal = Tracer(self.__entry_imunicipal,
-                self.__rule_imunicipal)
+                self.__rule_imunicipal, zeroes=True)
         self.__tracer_logradouro = Tracer(self.__entry_logradouro,
                 self.__rule_logradouro)
         self.__tracer_complemento = Tracer(self.__entry_complemento,
