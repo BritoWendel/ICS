@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 #Definir usuário e senha para acessar o banco de dados abaixo:
-USER = 'dev'
-PASSWORD = 'dev'
+USER = 'root'
+PASSWORD = 'test'
 
 from ClientList import *
 from Database import Database
