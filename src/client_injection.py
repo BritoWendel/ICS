@@ -5,11 +5,14 @@ rsociais = ['Wendel Brito', 'Aline Aparecida', 'Andre Ricardo', 'Jeferson Luiz',
 cnpjs = ['68559950000194','24525844000114','95475845000140','74614401000178','68486686000106','77156187000141','99967166000149']
 iestaduais = ['737430566205','437625328589','855099423414','977927890277','353345380120','300560160705','117348140822']
 
-db = Database('dev', 'dev', 'localhost', 'sci_db')
+db = Database('root', 'test', 'localhost', 'sci_db')
 for i in range(200):
     rsocial = rsociais[randint(0,6)]
     iestadual = iestaduais[randint(0,6)]
     cnpj = cnpjs[randint(0,6)]
+    nfantasia = rsocial.lower().replace(" ", "")
+    email = rsocial.lower().replace(" ", "") + '@email.com.br'
+    url = 'facebook.com/'+ rsocial.lower().replace(" ", "")
 
     db.insert("CLIENTE", ['bairro_cliente',
             'cep_cliente',
@@ -31,15 +34,15 @@ for i in range(200):
             rsocial,
             '999995555',
             '19',
-            rsocial.lower().replace(" ", ""),
+            nfantasia,
             '0',
             cnpj,
             iestadual,
             '99999994',
             'Rua manoel machado pereira',
-            rsocial.lower().replace(" ", "") + '@email.com.br',
+            email,
             'Nenhum',
-            'facebook.com/'+ rsocial.lower().replace(" ", ""),
+            url,
             '4'])
     id_cliente = str(db.last_insert_id()[0]['LAST_INSERT_ID()'])
     db.insert("TELEFONE",
