@@ -3,7 +3,7 @@ from random import randint
 
 rsociais = ['Wendel Brito', 'Aline Aparecida', 'Andre Ricardo', 'Jeferson Luiz', 'João Gabriel', 'Rodney de Andrade', 'Tiffany Carvalho']
 cnpjs = ['68559950000194','24525844000114','95475845000140','74614401000178','68486686000106','77156187000141','99967166000149']
-iestaduais = ['737430566205','437625328589','855099423414','977927890277','353345380120','300560160705','055593537275']
+iestaduais = ['737430566205','437625328589','855099423414','977927890277','353345380120','300560160705','117348140822']
 
 db = Database('dev', 'dev', 'localhost', 'sci_db')
 for i in range(200):
