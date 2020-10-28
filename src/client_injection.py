@@ -31,15 +31,15 @@ for i in range(200):
             rsocial,
             '999995555',
             '19',
-            rsocial.lower().strip(" "),
+            rsocial.lower().replace(" ", ""),
             '0',
             cnpj,
             iestadual,
             '99999994',
             'Rua manoel machado pereira',
-            rsocial.lower().strip(" ") + '@email.com.br',
+            rsocial.lower().replace(" ", "") + '@email.com.br',
             'Nenhum',
-            'facebook.com/'+ rsocial.lower().strip(" "),
+            'facebook.com/'+ rsocial.lower().replace(" ", ""),
             '4'])
     id_cliente = str(db.last_insert_id()[0]['LAST_INSERT_ID()'])
     db.insert("TELEFONE",
