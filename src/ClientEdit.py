@@ -186,7 +186,7 @@ class ClientEdit(ClientInsert):
                 ['id_telefone'],
                 [str(table_telefone_id[2]['id_telefone'])])
         
-        messagebox.showinfo("Informação", "Dados alterados!")
+        messagebox.showinfo("Informação", "Dados alterados!", parent=self)
 
         self.destroy()
         self.__list.filter_client()

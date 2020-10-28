@@ -470,10 +470,10 @@ class ClientInsert(ClientForm):
                  self.__number_telefone3,
                  str(cliente_id)])
 
-        messagebox.showinfo("Informação", "Dados adicionados!")
+        messagebox.showinfo("Informação", "Dados adicionados!", parent=self)
 
         self.destroy()
 
     def __button_cancelar_action(self):
-        if messagebox.askyesno("Alerta", "Realmente deseja sair?"):
+        if messagebox.askyesno("Alerta", "Realmente deseja sair?", parent=self):
             self.destroy()

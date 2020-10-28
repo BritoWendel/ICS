@@ -178,7 +178,7 @@ class ClientForm(Toplevel):
         self.__tracer_municipio = Tracer(self.__combo_municipio,
                 self.__rule_municipio)
         self.__tracer_cep = Tracer(self.__entry_cep,
-                self.__rule_cep)
+                self.__rule_cep, zeroes=True)
         self.__tracer_telefone = Tracer(self.__entry_telefone,
                 self.__rule_telefone)
         self.__tracer_ncel = Tracer(self.__entry_ncel,

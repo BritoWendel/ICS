@@ -1,5 +1,5 @@
 /* Create sci_db Database */
-CREATE DATABASE `sci_db`;
+CREATE DATABASE IF NOT EXISTS `sci_db`;
 
 /* Create UF Table */
 CREATE TABLE IF NOT EXISTS `sci_db`.`UF` (

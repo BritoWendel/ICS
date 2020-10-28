@@ -1,10 +1,18 @@
 import mysql.connector
 
 class Database(object):
-    def __init__(self, user, passwd, host, db):
+    def __init__(self, user, passwd):
         self.__conn = mysql.connector.connect(
-                user=user, password=passwd, host=host, database=db, auth_plugin='mysql_native_password'
+                user=user, password=passwd, host='localhost', database='sci_db',
+                auth_plugin='mysql_native_password'
         )
+        version_table = self.__query_fetchall(
+                "SHOW VARIABLES LIKE \"%version%\"")
+        if int(version_table[7]['Value'][0]) < 8:
+            self.version_error = True
+            return
+        else:
+            self.version_error = False
 
     def __concat(self, fields):
         tmp_str = ""

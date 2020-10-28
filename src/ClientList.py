@@ -280,7 +280,7 @@ class ClientList(Tk):
                     order_by=campo_pesquisa + " " + campo_ordem)
         
         if (field == "cnpj_cliente" or field == "iestadual_cliente" or
-            field == "imunicipal_cliente"):
+            field == "imunicipal_cliente" or field == "cep_cliente"):
             for i in range(len(table)):
                 zeroes_to_add = 0
                 if field == "cnpj_cliente":
@@ -290,6 +290,9 @@ class ClientList(Tk):
                     if len(str(table[i][field])) < 12:
                         zeroes_to_add = 12 - len(str(table[i][field]))
                 elif field == "imunicipal_cliente":
+                    if len(str(table[i][field])) < 8:
+                        zeroes_to_add = 8 - len(str(table[i][field]))
+                elif field == "cep_cliente":
                     if len(str(table[i][field])) < 8:
                         zeroes_to_add = 8 - len(str(table[i][field]))
                 if zeroes_to_add != 0:
