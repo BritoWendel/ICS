@@ -8,11 +8,11 @@ class Database(object):
         )
         version_table = self.__query_fetchall(
                 "SHOW VARIABLES LIKE \"%version%\"")
-        if int(version_table[7]['Value'][0]) < 8:
-            self.version_error = True
-            return
-        else:
-            self.version_error = False
+        self.version_error = True
+        for entry in version_table:
+            if (entry['Variable_name'] == 'version' and
+            int(entry['Value'][0]) > 7):
+                self.version_error = False
 
     def __concat(self, fields):
         tmp_str = ""

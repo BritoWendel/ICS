@@ -277,36 +277,43 @@ class ClientInsert(ClientForm):
         allowed_ddds = ["11", "12", "13", "14", "15", "16", "17", 18, "19"]
         first_digit = ["2", "3", "4", "5"]
 
-        if (telefone == "" or len_telefone < 10 or
-        (len_telefone > 10 and len_telefone < 20) or
-        (len_telefone > 20 and len_telefone < 30) or
-        telefone[:2] not in allowed_ddds or
-        telefone[2:3] not in first_digit or
-        telefone[10:12] not in allowed_ddds or
-        telefone[12:13] not in first_digit or
-        telefone[20:22] not in allowed_ddds or
-        telefone[22:23] not in first_digit):
-            self._ClientForm__label_telefone.config(fg="red")
-            error = True
-        else:
-            self.__ddd_telefone3 = "00"
-            self.__number_telefone3 = "00000000"
-            self.__ddd_telefone2 = "00"
-            self.__number_telefone2 = "00000000"
-            
-            if len_telefone == 20:
-                self.__ddd_telefone2 = telefone[10:12]
-                self.__number_telefone2 = telefone[12:20]
+        self.__ddd_telefone2 = "00"
+        self.__number_telefone2 = "00000000"
+        self.__ddd_telefone3 = "00"
+        self.__number_telefone3 = "00000000"
+        
+        self._ClientForm__label_telefone.config(fg="black")
 
-            if len_telefone == 30:
-                self.__ddd_telefone3 = telefone[20:22]
-                self.__number_telefone3 = telefone[22:30]
-                self.__ddd_telefone2 = telefone[10:12]
-                self.__number_telefone2 = telefone[12:20]
-            
+        if (len_telefone == 10 and
+            telefone[:2] in allowed_ddds and
+            telefone[2:3] in first_digit):
             self.__ddd_telefone = telefone[:2]
             self.__number_telefone = telefone[2:10]
-            self._ClientForm__label_telefone.config(fg="black")
+        elif (len_telefone == 20 and
+              telefone[:2] in allowed_ddds and
+              telefone[2:3] in first_digit and
+              telefone[10:12] in allowed_ddds and
+              telefone[12:13] in first_digit):
+            self.__ddd_telefone = telefone[:2]
+            self.__number_telefone = telefone[2:10]
+            self.__ddd_telefone2 = telefone[10:12]
+            self.__number_telefone2 = telefone[12:20]
+        elif (len_telefone == 30 and
+              telefone[:2] in allowed_ddds and
+              telefone[2:3] in first_digit and
+              telefone[10:12] in allowed_ddds and
+              telefone[12:13] in first_digit and
+              telefone[20:22] in allowed_ddds and
+              telefone[22:23] in first_digit):
+            self.__ddd_telefone = telefone[:2]
+            self.__number_telefone = telefone[2:10]
+            self.__ddd_telefone2 = telefone[10:12]
+            self.__number_telefone2 = telefone[12:20]
+            self.__ddd_telefone3 = telefone[20:22]
+            self.__number_telefone3 = telefone[22:30]
+        else:
+            self._ClientForm__label_telefone.config(fg="red")
+            error = True
 
         ncel = self._ClientForm__tracer_ncel.get()
         
@@ -408,7 +415,9 @@ class ClientInsert(ClientForm):
             self.__db.insert("MUNICIPIO", 
                     ['nome_municipio', 'id_uf_municipio'],
                     [municipio, uf_id])
-            municipio_id = str(self.__db.last_insert_id())
+            municipio_id = str(
+                    self.__db.last_insert_id()[0]['LAST_INSERT_ID()'])
+            print(municipio_id)
         else:
             municipio_id = str(municipio_id[0]['id_municipio'])
 

@@ -119,7 +119,8 @@ class ClientEdit(ClientInsert):
             self._ClientInsert__db.insert("MUNICIPIO", 
                     ['nome_municipio', 'id_uf_municipio'],
                     [municipio, uf_id])
-            municipio_id = str(self._ClientInsert__db.last_insert_id())
+            municipio_id = str(
+                    self._ClientInsert__db.last_insert_id()[0]['LAST_INSERT_ID()'])
         else:
             municipio_id = str(municipio_id[0]['id_municipio'])
 

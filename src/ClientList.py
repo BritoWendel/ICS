@@ -1,5 +1,6 @@
 import os
 import time
+import math
 
 from tkinter import *
 import tkinter.ttk as ttk
@@ -363,9 +364,9 @@ class ClientList(Tk):
         return tmp
 
     def __process_pag_number(self):
-        pag_number = len(self.__table_cliente[0])//20
+        pag_number = math.ceil(len(self.__table_cliente[0])/20)
         tmp = []
-        for i in range(pag_number+1):
+        for i in range(pag_number):
             tmp.append(i)
         self.__combo_pagina['values'] = tmp
         self.__combo_pagina.current(0)
@@ -451,7 +452,7 @@ class ClientList(Tk):
 
     def __get_client_id(self):
         selection = self.__tree.index(self.__tree.selection())
-        return self.__table_cliente[0][selection]
+        return self.__table_cliente[0][selection+(20*int(self.__combo_pagina.get()))]
 
     def __insert_client(self):
         instance_insert = ClientInsert(self.__db, self)
@@ -467,9 +468,10 @@ class ClientList(Tk):
     
     def __delete_client(self):
         if messagebox.askyesno("Questão", "Deseja excluir?"):
+            selected_id = str(self.__get_client_id())
             self.__db.delete("TELEFONE",
-                    ["id_cliente_telefone"], str(self.__get_client_id()))
+                    ["id_cliente_telefone"], [selected_id])
             self.__db.delete("CLIENTE",
-                    ["id_cliente"], str(self.__get_client_id()))
+                    ["id_cliente"], [selected_id])
             self.filter_client()
 

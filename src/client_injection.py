@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from Database import *
 from random import randint
 
@@ -5,14 +7,14 @@ rsociais = ['Wendel Brito', 'Aline Aparecida', 'Andre Ricardo', 'Jeferson Luiz',
 cnpjs = ['68559950000194','24525844000114','95475845000140','74614401000178','68486686000106','77156187000141','99967166000149']
 iestaduais = ['737430566205','437625328589','855099423414','977927890277','353345380120','300560160705','117348140822']
 
-db = Database('root', 'test', 'localhost', 'sci_db')
-for i in range(200):
+db = Database('root', 'test')
+for i in range(1):
     rsocial = rsociais[randint(0,6)]
     iestadual = iestaduais[randint(0,6)]
     cnpj = cnpjs[randint(0,6)]
     nfantasia = rsocial.lower().replace(" ", "")
     email = rsocial.lower().replace(" ", "") + '@email.com.br'
-    url = 'facebook.com/'+ rsocial.lower().replace(" ", "")
+    url = 'www.facebook.com'
 
     db.insert("CLIENTE", ['bairro_cliente',
             'cep_cliente',
