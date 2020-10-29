@@ -1,4 +1,20 @@
 #!/usr/bin/env python3
+#
+# ANÁLISE E DESENVOLVIMENTO DE SISTEMAS
+# Programação Avançada
+# 4ADS | 2020-2
+#
+# Integrated Corporate System
+#
+# Equipe 02
+#   Wendel Rodrigues Ferreira Brito, 25306 (Lider)
+#   Aline Aparecida Vicente de Souza, 25604
+#   André Ricardo Capeleto, 25396
+#   Jeferson Luiz Butinhão de Oliveira, 25473
+#   João Gabriel Sabatini, 25471
+#   Rodney de Andrade Martins, 25305
+#   Tiffany Carvalho das Neves, 25591
+#
 
 import os
 import sys
