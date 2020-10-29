@@ -37,6 +37,7 @@ class Database(object):
             self.__dbwin.winfo_screenheight()//2 - 115//2
             )
         )
+        self.__dbwin.resizable(False, False)
         self.__dbwin.title("Database Login")
         self.__user_label = Label(self.__dbwin, text="User:")
         self.__pass_label = Label(self.__dbwin, text="Pass:")
