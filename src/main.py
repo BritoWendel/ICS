@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
 
-#Definir usuário e senha para acessar o banco de dados abaixo:
-USER = 'root'
-PASSWORD = 'test'
-
 import sys
 
 import mysql.connector
@@ -37,7 +33,10 @@ def main():
                 "Você não possui a versão mínima recomendada do MySQL Connector")
         return
 
-    db = Database(USER, PASSWORD)
+    db = Database()
+    
+    if db.conn_error:
+        return
 
     if db.version_error:
         messagebox_info(

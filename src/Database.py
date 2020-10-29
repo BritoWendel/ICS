@@ -1,11 +1,60 @@
+from tkinter import *
+from tkinter import messagebox
 import mysql.connector
+from mysql.connector import errorcode
 
 class Database(object):
-    def __init__(self, user, passwd):
-        self.__conn = mysql.connector.connect(
-                user=user, password=passwd, host='localhost', database='sci_db',
-                auth_plugin='mysql_native_password'
+    def __create_connection(self):
+        user = self.__user_entry.get()
+        passwd = self.__pass_entry.get()
+        try:
+            self.__conn = mysql.connector.connect(
+                    user=user, password=passwd, host='localhost',
+                    database='sci_db', auth_plugin='mysql_native_password'
+            )
+        except mysql.connector.Error as err:
+            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                self.__user_label['fg'] = 'red'
+                self.__pass_label['fg'] = 'red'
+            elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                if (messagebox.showinfo("Informação",
+                    "Erro o Schema `sci_db` não existe!")):
+                    self.__dbwin.destroy()
+            else:
+                if (messagebox.showinfo("Informação", err)):
+                    self.__dbwin.destroy()
+        else:
+            self.conn_error = False
+            self.__dbwin.destroy()
+            return
+
+    def __init__(self):
+        self.conn_error = True
+        self.__dbwin = Tk()
+        self.__dbwin.geometry("{}x{}+{}+{}".format(
+            170, 115,
+            self.__dbwin.winfo_screenwidth()//2 - 170//2,
+            self.__dbwin.winfo_screenheight()//2 - 115//2
+            )
         )
+        self.__dbwin.title("Database Login")
+        self.__user_label = Label(self.__dbwin, text="User:")
+        self.__pass_label = Label(self.__dbwin, text="Pass:")
+        self.__user_entry = Entry(self.__dbwin)
+        self.__pass_entry = Entry(self.__dbwin, show="*")
+        login_button = Button(self.__dbwin, text="Login",
+                command=self.__create_connection)
+        self.__dbwin.grid_columnconfigure(index=0, weight=1)
+        self.__user_label.grid(row=0, column=0, sticky='w')
+        self.__user_entry.grid(row=1, column=0, sticky='we')
+        self.__pass_label.grid(row=2, column=0, sticky='w')
+        self.__pass_entry.grid(row=3, column=0, sticky='we')
+        login_button.grid(row=4, column=0, sticky='e')
+        self.__dbwin.mainloop()
+
+        if self.conn_error:
+            return
+
         version_table = self.__query_fetchall(
                 "SHOW VARIABLES LIKE \"%version%\"")
         self.version_error = True
@@ -13,6 +62,7 @@ class Database(object):
             if (entry['Variable_name'] == 'version' and
             int(entry['Value'][0]) > 7):
                 self.version_error = False
+                return
 
     def __concat(self, fields):
         tmp_str = ""
