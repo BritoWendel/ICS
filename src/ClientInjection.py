@@ -8,7 +8,7 @@ cnpjs = ['68559950000194','24525844000114','95475845000140','74614401000178','68
 iestaduais = ['737430566205','437625328589','855099423414','977927890277','353345380120','300560160705','117348140822']
 
 db = Database()
-for i in range(1):
+for i in range(200):
     rsocial = rsociais[randint(0,6)]
     iestadual = iestaduais[randint(0,6)]
     cnpj = cnpjs[randint(0,6)]

@@ -1157,67 +1157,70 @@ class ClientInsert(ClientForm):
         else:
             municipio_id = str(municipio_id[0]['id_municipio'])
 
-        self.__db.insert("CLIENTE",
-                ['bairro_cliente',
-                 'cep_cliente',
-                 'rsocial_cliente',
-                 'ncel_cliente',
-                 'ddd_cel_cliente',
-                 'nfantasia_cliente',
-                 'whatsapp_cliente',
-                 'cnpj_cliente',
-                 'iestadual_cliente',
-                 'imunicipal_cliente',
-                 'logradouro_cliente',
-                 'email_cliente',
-                 'complemento_cliente',
-                 'url_cliente',
-                 'id_municipio_cliente'],
-                [bairro,
-                 cep,
-                 rsocial,
-                 ncel[2:],
-                 ncel[:2],
-                 nfantasia,
-                 whatsapp,
-                 cnpj,
-                 iestadual,
-                 imunicipal,
-                 logradouro,
-                 email,
-                 complemento,
-                 url,
-                 municipio_id])
+        try:
+            self.__db.insert("CLIENTE",
+                    ['bairro_cliente',
+                     'cep_cliente',
+                     'rsocial_cliente',
+                     'ncel_cliente',
+                     'ddd_cel_cliente',
+                     'nfantasia_cliente',
+                     'whatsapp_cliente',
+                     'cnpj_cliente',
+                     'iestadual_cliente',
+                     'imunicipal_cliente',
+                     'logradouro_cliente',
+                     'email_cliente',
+                     'complemento_cliente',
+                     'url_cliente',
+                     'id_municipio_cliente'],
+                    [bairro,
+                     cep,
+                     rsocial,
+                     ncel[2:],
+                     ncel[:2],
+                     nfantasia,
+                     whatsapp,
+                     cnpj,
+                     iestadual,
+                     imunicipal,
+                     logradouro,
+                     email,
+                     complemento,
+                     url,
+                     municipio_id])
 
-        cliente_id = self.__db.last_insert_id()[0]['LAST_INSERT_ID()']
+            cliente_id = self.__db.last_insert_id()[0]['LAST_INSERT_ID()']
 
-        self.__db.insert("TELEFONE",
-                ["ddd_telefone",
-                 "numero_telefone",
-                 "id_cliente_telefone"],
-                [self.__ddd_telefone,
-                 self.__number_telefone,
-                 str(cliente_id)])
+            self.__db.insert("TELEFONE",
+                    ["ddd_telefone",
+                     "numero_telefone",
+                     "id_cliente_telefone"],
+                    [self.__ddd_telefone,
+                     self.__number_telefone,
+                     str(cliente_id)])
 
-        self.__db.insert("TELEFONE",
-                ["ddd_telefone",
-                 "numero_telefone",
-                 "id_cliente_telefone"],
-                [self.__ddd_telefone2,
-                 self.__number_telefone2,
-                 str(cliente_id)])
+            self.__db.insert("TELEFONE",
+                    ["ddd_telefone",
+                     "numero_telefone",
+                     "id_cliente_telefone"],
+                    [self.__ddd_telefone2,
+                     self.__number_telefone2,
+                     str(cliente_id)])
 
-        self.__db.insert("TELEFONE",
-                ["ddd_telefone",
-                 "numero_telefone",
-                 "id_cliente_telefone"],
-                [self.__ddd_telefone3,
-                 self.__number_telefone3,
-                 str(cliente_id)])
+            self.__db.insert("TELEFONE",
+                    ["ddd_telefone",
+                     "numero_telefone",
+                     "id_cliente_telefone"],
+                    [self.__ddd_telefone3,
+                     self.__number_telefone3,
+                     str(cliente_id)])
 
-        messagebox.showinfo("Informação", "Dados adicionados!", parent=self)
+            messagebox.showinfo("Informação", "Dados adicionados!", parent=self)
 
-        self.destroy()
+            self.destroy()
+        except:
+            messagebox.showinfo("Informação", "Dados duplicados", parent=self)
 
     def __button_cancelar_action(self):
         if messagebox.askyesno("Alerta", "Realmente deseja sair?", parent=self):
