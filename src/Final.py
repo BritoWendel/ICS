@@ -934,10 +934,10 @@ class ClientInsert(ClientForm):
 
         iestadual = self._ClientForm__tracer_iestadual.get()
 
-        if iestadual == "" or len(iestadual) < 12:
+        if iestadual != "" and len(iestadual) < 12:
             self._ClientForm__label_iestadual.config(fg="red")
             error = True
-        else:
+        elif iestadual != "":
             w = [1, 3, 4, 5, 6, 7, 8, 10]
             w1 = [3, 2, 10, 9, 8, 7, 6, 5, 4, 3, 2]
             verify = lambda a: str(z(a, iestadual))[-1] == iestadual[len(a)]
@@ -949,10 +949,10 @@ class ClientInsert(ClientForm):
 
         imunicipal = self._ClientForm__tracer_imunicipal.get()
 
-        if imunicipal == "" or len(imunicipal) < 8:
+        if imunicipal != "" and len(imunicipal) < 8:
             self._ClientForm__label_imunicipal.config(fg="red")
             error = True
-        else:
+        elif imunicipal != "":
             w = [2, 3, 4, 5, 6, 7, 8]
             if imunicipal[-1] == sub11(z(w, imunicipal)):
                 self._ClientForm__label_imunicipal.config(fg="black")
@@ -970,11 +970,11 @@ class ClientInsert(ClientForm):
 
         complemento = self._ClientForm__str_complemento.get()
 
-        if complemento == "":
-            self._ClientForm__label_complemento.config(fg="red")
-            error = True
-        else:
-            self._ClientForm__label_complemento.config(fg="black")
+        #if complemento == "":
+        #    self._ClientForm__label_complemento.config(fg="red")
+        #    error = True
+        #else:
+        #    self._ClientForm__label_complemento.config(fg="black")
 
         bairro = self._ClientForm__str_bairro.get()
 
@@ -1056,9 +1056,9 @@ class ClientInsert(ClientForm):
         
         first_digit = ["6", "7", "8", "9"]
 
-        if (ncel == "" or len(ncel) < 11 or
+        if (ncel != "" and (len(ncel) < 11 or
             ncel[:2] not in allowed_ddds or
-            ncel[3:4] not in first_digit):
+            ncel[3:4] not in first_digit)):
             self._ClientForm__label_ncel.config(fg="red")
             error = True
         else:
@@ -1104,12 +1104,12 @@ class ClientInsert(ClientForm):
             if char == ".":
                 break
 
-        if (url == "" or pos < 3 or
+        if (url != "" and (pos < 3 or
             url[3:] in domain or
             url[3:] in domain_br or
             url[:4] != "www." or
             (url[len(url)-4:] not in domain and
-             url[len(url)-7:] not in domain_br)):
+             url[len(url)-7:] not in domain_br))):
             self._ClientForm__label_url.config(fg="red")
             error = True
         else:
