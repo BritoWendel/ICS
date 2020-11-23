@@ -593,6 +593,8 @@ class ClientView(ClientForm):
 
         celular = str(table_cliente['ddd_cel_cliente'])
         celular += str(table_cliente['ncel_cliente'])
+        if celular == "00":
+            celular = "00000000000"
         self._ClientForm__tracer_ncel.set(
                 celular)
         
@@ -947,6 +949,9 @@ class ClientInsert(ClientForm):
                 self._ClientForm__label_iestadual.config(fg="red")
                 error = True
 
+        if iestadual == "":
+            iestadual = "0"
+
         imunicipal = self._ClientForm__tracer_imunicipal.get()
 
         if imunicipal != "" and len(imunicipal) < 8:
@@ -959,6 +964,9 @@ class ClientInsert(ClientForm):
             else:
                 self._ClientForm__label_imunicipal.config(fg="red")
                 error = True
+        
+        if imunicipal == "":
+            imunicipal = "0"
 
         logradouro = self._ClientForm__str_logradouro.get()
 
@@ -969,12 +977,6 @@ class ClientInsert(ClientForm):
             self._ClientForm__label_logradouro.config(fg="black")
 
         complemento = self._ClientForm__str_complemento.get()
-
-        #if complemento == "":
-        #    self._ClientForm__label_complemento.config(fg="red")
-        #    error = True
-        #else:
-        #    self._ClientForm__label_complemento.config(fg="black")
 
         bairro = self._ClientForm__str_bairro.get()
 
@@ -1159,6 +1161,9 @@ class ClientInsert(ClientForm):
             municipio_id = str(municipio_id[0]['id_municipio'])
 
         try:
+            if ncel == "":
+                ncel = '0000'
+
             self.__db.insert("CLIENTE",
                     ['bairro_cliente',
                      'cep_cliente',
@@ -1300,6 +1305,10 @@ class ClientEdit(ClientInsert):
 
         celular = str(table_cliente['ddd_cel_cliente'])
         celular += str(table_cliente['ncel_cliente'])
+        
+        if celular == "00":
+            celular = "00000000000"
+
         self._ClientForm__tracer_ncel.set(
                 celular)
         
@@ -1785,7 +1794,10 @@ class ClientList(Tk):
 
         tmp = []
         for i in range(len(ddd)):
-            full = str(ddd[i]) + str(ncel[i])
+            tmp2 = str(ddd[i]) + str(ncel[i])
+            if tmp2 == "(0) 0 -":
+                tmp2 = "(00) 0 0000-0000"
+            full = tmp2
             tmp.append(full)
 
         return tmp
