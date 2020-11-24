@@ -1277,7 +1277,13 @@ class ClientInsert(ClientForm):
             self._ClientForm__label_rsocial.config(fg="black")
 
             error_msg = str(e)
-            x = re.search("'cliente.*'$", error_msg)
+
+            if os.name == 'nt':
+                database_term = 'cliente'
+            else:
+                database_term = 'CLIENTE'
+
+            x = re.search(f"'{database_term}.*'$", error_msg)
 
             if not x:
                 messagebox.showinfo("Informação",
@@ -1285,7 +1291,7 @@ class ClientInsert(ClientForm):
             
             location = x.span()
             error_msg = error_msg[location[0]:location[1]]
-            error_msg = re.sub("cliente\.", "", error_msg)
+            error_msg = re.sub(f"{database_term}\.", "", error_msg)
             error_msg = error_msg[1:-1]
 
             if error_msg == "cnpj_cliente":
@@ -1521,9 +1527,15 @@ class ClientEdit(ClientInsert):
             self._ClientForm__label_iestadual.config(fg="black")
             self._ClientForm__label_imunicipal.config(fg="black")
             self._ClientForm__label_rsocial.config(fg="black")
-
+            
             error_msg = str(e)
-            x = re.search("'cliente.*'$", error_msg)
+
+            if os.name == 'nt':
+                database_term = 'cliente'
+            else:
+                database_term = 'CLIENTE'
+
+            x = re.search(f"'{database_term}.*'$", error_msg)
 
             if not x:
                 messagebox.showinfo("Informação",
@@ -1531,7 +1543,7 @@ class ClientEdit(ClientInsert):
             
             location = x.span()
             error_msg = error_msg[location[0]:location[1]]
-            error_msg = re.sub("cliente\.", "", error_msg)
+            error_msg = re.sub(f"{database_term}\.", "", error_msg)
             error_msg = error_msg[1:-1]
 
             if error_msg == "cnpj_cliente":
@@ -1576,6 +1588,8 @@ class ClientList(Tk):
 
         self.title("Listagem de Clientes")
         self.resizable(False, False)
+
+        self.__item_page_number = 20
 
         self.__frame_border = Frame(self)
 
@@ -1974,13 +1988,13 @@ class ClientList(Tk):
             self.__tree.delete(i)
 
         values = ["", "", "", ""]
-        actual_index = int(self.__combo_pagina.get())*3
+        actual_index = int(self.__combo_pagina.get())*self.__item_page_number
         
         consult_size = len(self.__table_cliente[0])
-        if actual_index + 3 > consult_size:
+        if actual_index + self.__item_page_number > consult_size:
             final_index = consult_size
         else:
-            final_index = actual_index + 3
+            final_index = actual_index + self.__item_page_number
 
         for i in range(actual_index, final_index):
             values[0] = self.__table_cliente[1][i]
@@ -1992,7 +2006,8 @@ class ClientList(Tk):
 
     def __get_client_id(self):
         selection = self.__tree.index(self.__tree.selection())
-        return self.__table_cliente[0][selection+(3*int(self.__combo_pagina.get()))]
+        return self.__table_cliente[0][selection+(
+            self.__item_page_number*int(self.__combo_pagina.get()))]
 
     def __insert_client(self):
         instance_insert = ClientInsert(self.__db, self)
