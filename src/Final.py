@@ -1205,7 +1205,6 @@ class ClientInsert(ClientForm):
                     [municipio, uf_id])
             municipio_id = str(
                     self.__db.last_insert_id()[0]['LAST_INSERT_ID()'])
-            print(municipio_id)
         else:
             municipio_id = str(municipio_id[0]['id_municipio'])
 
@@ -1278,7 +1277,7 @@ class ClientInsert(ClientForm):
             self._ClientForm__label_rsocial.config(fg="black")
 
             error_msg = str(e)
-            x = re.search("'CLIENTE.*'$", error_msg)
+            x = re.search("'cliente.*'$", error_msg)
 
             if not x:
                 messagebox.showinfo("Informação",
@@ -1286,7 +1285,7 @@ class ClientInsert(ClientForm):
             
             location = x.span()
             error_msg = error_msg[location[0]:location[1]]
-            error_msg = re.sub("CLIENTE\.", "", error_msg)
+            error_msg = re.sub("cliente\.", "", error_msg)
             error_msg = error_msg[1:-1]
 
             if error_msg == "cnpj_cliente":
@@ -1524,7 +1523,7 @@ class ClientEdit(ClientInsert):
             self._ClientForm__label_rsocial.config(fg="black")
 
             error_msg = str(e)
-            x = re.search("'CLIENTE.*'$", error_msg)
+            x = re.search("'cliente.*'$", error_msg)
 
             if not x:
                 messagebox.showinfo("Informação",
@@ -1532,7 +1531,7 @@ class ClientEdit(ClientInsert):
             
             location = x.span()
             error_msg = error_msg[location[0]:location[1]]
-            error_msg = re.sub("CLIENTE\.", "", error_msg)
+            error_msg = re.sub("cliente\.", "", error_msg)
             error_msg = error_msg[1:-1]
 
             if error_msg == "cnpj_cliente":
@@ -1787,7 +1786,6 @@ class ClientList(Tk):
             return value[:5] + "-" + value[5:]
         if name == "numero_telefone":
             tmp = ""
-            print(value)
             for element in value:
                 if (int(element["numero_telefone"]) != 0 and
                     int(element["ddd_telefone"]) != 0):
@@ -1903,7 +1901,7 @@ class ClientList(Tk):
         return tmp
 
     def __process_pag_number(self):
-        pag_number = math.ceil(len(self.__table_cliente[0])/20)
+        pag_number = math.ceil(len(self.__table_cliente[0])/3)
         tmp = []
         for i in range(pag_number):
             tmp.append(i)
@@ -1976,13 +1974,13 @@ class ClientList(Tk):
             self.__tree.delete(i)
 
         values = ["", "", "", ""]
-        actual_index = int(self.__combo_pagina.get())*20
+        actual_index = int(self.__combo_pagina.get())*3
         
         consult_size = len(self.__table_cliente[0])
-        if actual_index + 20 > consult_size:
+        if actual_index + 3 > consult_size:
             final_index = consult_size
         else:
-            final_index = actual_index + 20
+            final_index = actual_index + 3
 
         for i in range(actual_index, final_index):
             values[0] = self.__table_cliente[1][i]
@@ -1994,7 +1992,7 @@ class ClientList(Tk):
 
     def __get_client_id(self):
         selection = self.__tree.index(self.__tree.selection())
-        return self.__table_cliente[0][selection+(20*int(self.__combo_pagina.get()))]
+        return self.__table_cliente[0][selection+(3*int(self.__combo_pagina.get()))]
 
     def __insert_client(self):
         instance_insert = ClientInsert(self.__db, self)
