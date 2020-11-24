@@ -73,6 +73,8 @@ class Tracer(object):
         return text
 
     def set(self, value):
+        if value == '' or value == None:
+            return
         len_value = len(value)
         real_size = self.__rules[1] - len(self.__rules[2:])
         zero_increment = ""
@@ -516,6 +518,16 @@ class Database(object):
         return self.__query_fetchall(db_query)
 
     def insert(self, table, fields, values):
+        pointer = 0
+        final_len = len(values)
+        while pointer != final_len:
+            if values[pointer] == '':
+                del values[pointer]
+                del fields[pointer]
+            else:
+                pointer += 1
+            final_len = len(values)
+        
         db_query = "INSERT INTO " + table + " (" 
         db_query += self.__concat(fields) + ") VALUES ("
         db_query += self.__concat_format(values) + ")" 
@@ -578,32 +590,53 @@ class ClientView(ClientForm):
                 table_cliente['nfantasia_cliente'])
         self._ClientForm__tracer_cnpj.set(
                 str(table_cliente['cnpj_cliente']))
-        self._ClientForm__tracer_iestadual.set(
-                str(table_cliente['iestadual_cliente']))
-        self._ClientForm__tracer_imunicipal.set(
-                str(table_cliente['imunicipal_cliente']))
+
+        if table_cliente['iestadual_cliente'] == None:
+            self._ClientForm__tracer_iestadual.set('')
+        else:
+            self._ClientForm__tracer_iestadual.set(
+                    str(table_cliente['iestadual_cliente']))
+
+        if table_cliente['imunicipal_cliente'] == None:
+            self._ClientForm__tracer_imunicipal.set('')
+        else:
+            self._ClientForm__tracer_imunicipal.set(
+                    str(table_cliente['imunicipal_cliente']))
+
         self._ClientForm__str_logradouro.set(
                 table_cliente['logradouro_cliente'])
-        self._ClientForm__str_complemento.set(
-                table_cliente['complemento_cliente'])
+
+        if table_cliente['complemento_cliente'] == None:
+            self._ClientForm__str_complemento.set('')
+        else:
+            self._ClientForm__str_complemento.set(
+                    table_cliente['complemento_cliente'])
+
         self._ClientForm__tracer_cep.set(
                 str(table_cliente['cep_cliente']))
         self._ClientForm__tracer_telefone.set(
                 telefones)
 
-        celular = str(table_cliente['ddd_cel_cliente'])
-        celular += str(table_cliente['ncel_cliente'])
-        if celular == "00":
-            celular = "00000000000"
-        self._ClientForm__tracer_ncel.set(
-                celular)
+        if table_cliente['ddd_cel_cliente'] == None:
+            celular = ""
+        else:
+            celular = str(table_cliente['ddd_cel_cliente'])
+
+        if table_cliente['ncel_cliente'] == None:
+            celular = ""
+        else:
+            celular += str(table_cliente['ncel_cliente'])
         
         self._ClientForm__str_bairro.set(
                 table_cliente['bairro_cliente'])
         self._ClientForm__str_email.set(
                 table_cliente['email_cliente'])
-        self._ClientForm__str_url.set(
-                table_cliente['url_cliente'])
+
+        if table_cliente['url_cliente'] == None:
+            self._ClientForm__str_url.set('')
+        else:
+            self._ClientForm__str_url.set(
+                    table_cliente['url_cliente'])
 
         self._ClientForm__str_municipio.set(table_municipio["nome_municipio"])
         self._ClientForm__str_uf.set(table_uf["nome_uf"])
@@ -949,8 +982,8 @@ class ClientInsert(ClientForm):
                 self._ClientForm__label_iestadual.config(fg="red")
                 error = True
 
-        if iestadual == "":
-            iestadual = "0"
+        #if iestadual == "":
+        #    iestadual = "0"
 
         imunicipal = self._ClientForm__tracer_imunicipal.get()
 
@@ -965,8 +998,8 @@ class ClientInsert(ClientForm):
                 self._ClientForm__label_imunicipal.config(fg="red")
                 error = True
         
-        if imunicipal == "":
-            imunicipal = "0"
+        #if imunicipal == "":
+        #    imunicipal = "0"
 
         logradouro = self._ClientForm__str_logradouro.get()
 
@@ -1161,8 +1194,8 @@ class ClientInsert(ClientForm):
             municipio_id = str(municipio_id[0]['id_municipio'])
 
         try:
-            if ncel == "":
-                ncel = '0000'
+            #if ncel == "":
+            #    ncel = '0000'
 
             self.__db.insert("CLIENTE",
                     ['bairro_cliente',
@@ -1290,25 +1323,43 @@ class ClientEdit(ClientInsert):
                 table_cliente['nfantasia_cliente'])
         self._ClientForm__tracer_cnpj.set(
                 str(table_cliente['cnpj_cliente']))
-        self._ClientForm__tracer_iestadual.set(
-                str(table_cliente['iestadual_cliente']))
-        self._ClientForm__tracer_imunicipal.set(
-                str(table_cliente['imunicipal_cliente']))
+
+        if table_cliente['iestadual_cliente'] == None:
+            self._ClientForm__tracer_iestadual.set('')
+        else:
+            self._ClientForm__tracer_iestadual.set(
+                    str(table_cliente['iestadual_cliente']))
+
+        if table_cliente['imunicipal_cliente'] == None:
+            self._ClientForm__tracer_imunicipal.set('')
+        else:
+            self._ClientForm__tracer_imunicipal.set(
+                    str(table_cliente['imunicipal_cliente']))
+
         self._ClientForm__str_logradouro.set(
                 table_cliente['logradouro_cliente'])
-        self._ClientForm__str_complemento.set(
-                table_cliente['complemento_cliente'])
+        
+        if table_cliente['complemento_cliente'] == None:
+            self._ClientForm__str_complemento.set('')
+        else:
+            self._ClientForm__str_complemento.set(
+                    table_cliente['complemento_cliente'])
+
         self._ClientForm__tracer_cep.set(
                 str(table_cliente['cep_cliente']))
         self._ClientForm__tracer_telefone.set(
                 telefones)
 
-        celular = str(table_cliente['ddd_cel_cliente'])
-        celular += str(table_cliente['ncel_cliente'])
-        
-        if celular == "00":
-            celular = "00000000000"
+        if table_cliente['ddd_cel_cliente'] == None:
+            celular = ""
+        else:
+            celular = str(table_cliente['ddd_cel_cliente'])
 
+        if table_cliente['ncel_cliente'] == None:
+            celular = ""
+        else:
+            celular += str(table_cliente['ncel_cliente'])
+        
         self._ClientForm__tracer_ncel.set(
                 celular)
         
@@ -1316,8 +1367,11 @@ class ClientEdit(ClientInsert):
                 table_cliente['bairro_cliente'])
         self._ClientForm__str_email.set(
                 table_cliente['email_cliente'])
-        self._ClientForm__str_url.set(
-                table_cliente['url_cliente'])
+
+        if table_cliente['url_cliente'] == None:
+            self._ClientForm__str_url.set('')
+        else:
+            self._ClientForm__str_url.set(table_cliente['url_cliente'])
 
         self._ClientForm__str_municipio.set(table_municipio["nome_municipio"])
         self._ClientForm__str_uf.set(table_uf["nome_uf"])
@@ -1668,13 +1722,19 @@ class ClientList(Tk):
             return "email_cliente"
 
     def __format_result(self, name, value):
+        if value == None:
+            return ''
         if name == "cnpj_cliente":
             value = str(value)
             return value[:2] + "." + value[2:5] + "." + value[5:8] + "/" + value[8:12] + "." + value[12:15]
         if name == "iestadual_cliente":
+            if str(value)[-4:] == "None":
+                return ''
             value = str(value)
             return value[:3] + "." + value[3:6] + "." + value[6:9] + "." + value[9:]
         if name == "imunicipal_cliente":
+            if str(value)[-4:] == "None":
+                return ''
             value = str(value)
             return value[:1] + "." + value[1:4] + "." + value[4:7] + "-" + value[7:]
         if name == "cep_cliente":
@@ -1791,15 +1851,10 @@ class ClientList(Tk):
     def __ncel_cliente_query(self):
         ddd = self.__general_client_query('ddd_cel_cliente')
         ncel = self.__general_client_query('ncel_cliente')
-
         tmp = []
         for i in range(len(ddd)):
-            tmp2 = str(ddd[i]) + str(ncel[i])
-            if tmp2 == "(0) 0 -":
-                tmp2 = "(00) 0 0000-0000"
-            full = tmp2
+            full = str(ddd[i]) + str(ncel[i])
             tmp.append(full)
-
         return tmp
 
     def __process_pag_number(self):
