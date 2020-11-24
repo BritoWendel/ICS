@@ -540,6 +540,26 @@ class Database(object):
 
     def update(self, table, set_fields, set_values,
             where_fields, where_values):
+        pointer = 0
+        final_len = len(set_values)
+        while pointer != final_len:
+            if set_values[pointer] == '':
+                del set_values[pointer]
+                del set_fields[pointer]
+            else:
+                pointer += 1
+            final_len = len(set_values)
+
+        pointer = 0
+        final_len = len(where_values)
+        while pointer != final_len:
+            if where_values[pointer] == '':
+                del where_values[pointer]
+                del where_fields[pointer]
+            else:
+                pointer += 1
+            final_len = len(where_values)
+
         db_query = "UPDATE " + table + " SET " 
         db_query += self.__concat_values(set_fields, set_values) + " WHERE "
         db_query += self.__concat_values(where_fields, where_values)
@@ -982,9 +1002,6 @@ class ClientInsert(ClientForm):
                 self._ClientForm__label_iestadual.config(fg="red")
                 error = True
 
-        #if iestadual == "":
-        #    iestadual = "0"
-
         imunicipal = self._ClientForm__tracer_imunicipal.get()
 
         if imunicipal != "" and len(imunicipal) < 8:
@@ -997,9 +1014,6 @@ class ClientInsert(ClientForm):
             else:
                 self._ClientForm__label_imunicipal.config(fg="red")
                 error = True
-        
-        #if imunicipal == "":
-        #    imunicipal = "0"
 
         logradouro = self._ClientForm__str_logradouro.get()
 
@@ -1194,9 +1208,6 @@ class ClientInsert(ClientForm):
             municipio_id = str(municipio_id[0]['id_municipio'])
 
         try:
-            #if ncel == "":
-            #    ncel = '0000'
-
             self.__db.insert("CLIENTE",
                     ['bairro_cliente',
                      'cep_cliente',
@@ -1431,73 +1442,95 @@ class ClientEdit(ClientInsert):
         else:
             municipio_id = str(municipio_id[0]['id_municipio'])
 
-        self._ClientInsert__db.update("CLIENTE", 
-                ['bairro_cliente',
-                 'cep_cliente',
-                 'rsocial_cliente',
-                 'ncel_cliente',
-                 'ddd_cel_cliente',
-                 'nfantasia_cliente',
-                 'whatsapp_cliente',
-                 'cnpj_cliente',
-                 'iestadual_cliente',
-                 'imunicipal_cliente',
-                 'logradouro_cliente',
-                 'email_cliente',
-                 'complemento_cliente',
-                 'url_cliente',
-                 'id_municipio_cliente'],
-                [bairro,
-                 cep,
-                 rsocial,
-                 ncel[2:],
-                 ncel[:2],
-                 nfantasia,
-                 whatsapp,
-                 cnpj,
-                 iestadual,
-                 imunicipal,
-                 logradouro,
-                 email,
-                 complemento,
-                 url,
-                 municipio_id],
-                ['id_cliente'],
-                [str(self.__id_cliente)])
+        try:
+            self._ClientInsert__db.update("CLIENTE", 
+                    ['bairro_cliente',
+                     'cep_cliente',
+                     'rsocial_cliente',
+                     'ncel_cliente',
+                     'ddd_cel_cliente',
+                     'nfantasia_cliente',
+                     'whatsapp_cliente',
+                     'cnpj_cliente',
+                     'iestadual_cliente',
+                     'imunicipal_cliente',
+                     'logradouro_cliente',
+                     'email_cliente',
+                     'complemento_cliente',
+                     'url_cliente',
+                     'id_municipio_cliente'],
+                    [bairro,
+                     cep,
+                     rsocial,
+                     ncel[2:],
+                     ncel[:2],
+                     nfantasia,
+                     whatsapp,
+                     cnpj,
+                     iestadual,
+                     imunicipal,
+                     logradouro,
+                     email,
+                     complemento,
+                     url,
+                     municipio_id],
+                    ['id_cliente'],
+                    [str(self.__id_cliente)])
 
-        table_telefone_id = self._ClientInsert__db.select("TELEFONE",
-                ['id_telefone'],
-                ['id_cliente_telefone'],
-                [str(self.__id_cliente)])
+            table_telefone_id = self._ClientInsert__db.select("TELEFONE",
+                    ['id_telefone'],
+                    ['id_cliente_telefone'],
+                    [str(self.__id_cliente)])
 
-        self._ClientInsert__db.update("TELEFONE",
-                ['ddd_telefone',
-                 'numero_telefone'],
-                [self._ClientInsert__ddd_telefone,
-                 self._ClientInsert__number_telefone],
-                ['id_telefone'],
-                [str(table_telefone_id[0]['id_telefone'])])
-        
-        self._ClientInsert__db.update("TELEFONE",
-                ['ddd_telefone',
-                 'numero_telefone'],
-                [self._ClientInsert__ddd_telefone2,
-                 self._ClientInsert__number_telefone2],
-                ['id_telefone'],
-                [str(table_telefone_id[1]['id_telefone'])])
-        
-        self._ClientInsert__db.update("TELEFONE",
-                ['ddd_telefone',
-                 'numero_telefone'],
-                [self._ClientInsert__ddd_telefone3,
-                 self._ClientInsert__number_telefone3],
-                ['id_telefone'],
-                [str(table_telefone_id[2]['id_telefone'])])
-        
-        messagebox.showinfo("Informação", "Dados alterados!", parent=self)
+            self._ClientInsert__db.update("TELEFONE",
+                    ['ddd_telefone',
+                     'numero_telefone'],
+                    [self._ClientInsert__ddd_telefone,
+                     self._ClientInsert__number_telefone],
+                    ['id_telefone'],
+                    [str(table_telefone_id[0]['id_telefone'])])
+            
+            self._ClientInsert__db.update("TELEFONE",
+                    ['ddd_telefone',
+                     'numero_telefone'],
+                    [self._ClientInsert__ddd_telefone2,
+                     self._ClientInsert__number_telefone2],
+                    ['id_telefone'],
+                    [str(table_telefone_id[1]['id_telefone'])])
+            
+            self._ClientInsert__db.update("TELEFONE",
+                    ['ddd_telefone',
+                     'numero_telefone'],
+                    [self._ClientInsert__ddd_telefone3,
+                     self._ClientInsert__number_telefone3],
+                    ['id_telefone'],
+                    [str(table_telefone_id[2]['id_telefone'])])
+            
+            messagebox.showinfo("Informação", "Dados alterados!", parent=self)
 
-        self.destroy()
-        self.__list.filter_client()
+            self.destroy()
+            self.__list.filter_client()
+        except Exception as e:
+            error_msg = str(e)
+            x = re.search("'CLIENTE.*'$", error_msg)
+
+            if not x:
+                messagebox.showinfo("Informação",
+                        "Erro desconhecido, contate o suporte!", parent=self)
+            
+            location = x.span()
+            error_msg = error_msg[location[0]:location[1]]
+            error_msg = re.sub("CLIENTE\.", "", error_msg)
+            error_msg = error_msg[1:-1]
+
+            if error_msg == "cnpj_cliente":
+                self._ClientForm__label_cnpj.config(fg="red")
+            elif error_msg == "iestadual_cliente":
+                self._ClientForm__label_iestadual.config(fg="red")
+            elif error_msg == "imunicipal_cliente":
+                self._ClientForm__label_imunicipal.config(fg="red")
+            elif error_msg == "rsocial_cliente":
+                self._ClientForm__label_rsocial.config(fg="red")
 
 class ClientList(Tk):
     def label_combo(self, text, frame=None):
