@@ -459,7 +459,10 @@ class Database(object):
         tmp_str = ""
         tmp_len = len(fields)
         for i in range(0, tmp_len):
-            tmp_str += fields[i] + " = '" + values[i] + "'"
+            if values[i] == "NULL":
+                tmp_str += fields[i] + " = " + values[i] + ""
+            else:
+                tmp_str += fields[i] + " = '" + values[i] + "'"
             if (i != tmp_len-1):
                 tmp_str += ", "
         return tmp_str
@@ -544,8 +547,7 @@ class Database(object):
         final_len = len(set_values)
         while pointer != final_len:
             if set_values[pointer] == '':
-                del set_values[pointer]
-                del set_fields[pointer]
+                set_values[pointer] = "NULL"
             else:
                 pointer += 1
             final_len = len(set_values)
