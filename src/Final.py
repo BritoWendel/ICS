@@ -647,6 +647,8 @@ class ClientView(ClientForm):
         else:
             celular += str(table_cliente['ncel_cliente'])
         
+        self._ClientForm__tracer_ncel.set(celular)
+        
         self._ClientForm__str_bairro.set(
                 table_cliente['bairro_cliente'])
         self._ClientForm__str_email.set(
@@ -1270,6 +1272,11 @@ class ClientInsert(ClientForm):
 
             self.destroy()
         except Exception as e:
+            self._ClientForm__label_cnpj.config(fg="black")
+            self._ClientForm__label_iestadual.config(fg="black")
+            self._ClientForm__label_imunicipal.config(fg="black")
+            self._ClientForm__label_rsocial.config(fg="black")
+
             error_msg = str(e)
             x = re.search("'CLIENTE.*'$", error_msg)
 
@@ -1511,6 +1518,11 @@ class ClientEdit(ClientInsert):
             self.destroy()
             self.__list.filter_client()
         except Exception as e:
+            self._ClientForm__label_cnpj.config(fg="black")
+            self._ClientForm__label_iestadual.config(fg="black")
+            self._ClientForm__label_imunicipal.config(fg="black")
+            self._ClientForm__label_rsocial.config(fg="black")
+
             error_msg = str(e)
             x = re.search("'CLIENTE.*'$", error_msg)
 
