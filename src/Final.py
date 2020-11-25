@@ -1591,7 +1591,7 @@ class ClientList(Tk):
         self.title("Listagem de Clientes")
         self.resizable(False, False)
 
-        self.__item_page_number = 20
+        self.__item_page_number = 3
 
         self.__frame_border = Frame(self)
 
